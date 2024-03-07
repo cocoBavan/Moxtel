@@ -80,6 +80,8 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation("io.mockk:mockk:1.12.3")
     testImplementation("org.mockito:mockito-core:2.19.0")
+
+    implementation("androidx.core:core-splashscreen:1.0.1")
 }
 
 kapt {
