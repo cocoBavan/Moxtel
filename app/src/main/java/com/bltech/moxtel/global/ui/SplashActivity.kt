@@ -1,4 +1,4 @@
-package com.bltech.moxtel
+package com.bltech.moxtel.global.ui
 
 import android.app.Activity
 import android.content.Intent

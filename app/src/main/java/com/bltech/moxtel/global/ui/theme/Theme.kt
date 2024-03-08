@@ -1,4 +1,4 @@
-package com.bltech.moxtel.ui.theme
+package com.bltech.moxtel.global.ui.theme
 
 import android.app.Activity
 import android.os.Build
