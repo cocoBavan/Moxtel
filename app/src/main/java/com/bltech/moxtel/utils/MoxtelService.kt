@@ -5,7 +5,7 @@ import com.bltech.moxtel.gallery.data.model.GalleryResponse
 import retrofit2.http.GET
 
 interface MoxtelGitHubService {
-    @GET("/erik-sytnyk/movies-list/blob/master/db.json")
+    @GET("/erik-sytnyk/movies-list/master/db.json")
     suspend fun getMovies(): GalleryResponse
 }
 
