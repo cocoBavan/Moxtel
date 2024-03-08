@@ -71,6 +71,10 @@ dependencies {
     implementation(Dependencies.hiltNavigation)
 
     implementation(Dependencies.coroutines)
+    implementation(Dependencies.composeLifeCycleRuntime)
+
+    implementation(Dependencies.asyncImage)
+    implementation(Dependencies.asyncImageComposeExtension)
 
     debugImplementation(Dependencies.composeUITooling)
     debugImplementation(Dependencies.uiTestManifest)
@@ -88,6 +92,7 @@ dependencies {
     testImplementation(Dependencies.unitTest)
     testImplementation(Dependencies.unitTestMockk)
     testImplementation(Dependencies.unitTestMockito)
+
 }
 
 kapt {

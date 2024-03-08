@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="galley_view_title_size">20sp</dimen>
+    <dimen name="galley_view_cell_rounded_corner">10dp</dimen>
+    <dimen name="galley_view_cell_progress_view_size">40dp</dimen>
+    <dimen name="galley_view_text_box_padding">10dp</dimen>
+    <dimen name="galley_view_cell_border_size">1dp</dimen>
+</resources>
