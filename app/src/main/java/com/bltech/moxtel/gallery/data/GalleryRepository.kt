@@ -1,6 +1,7 @@
 package com.bltech.moxtel.gallery.data
 
 import com.bltech.moxtel.gallery.data.model.GalleryResponse
+import com.bltech.moxtel.gallery.data.model.GitHubMovie
 import com.bltech.moxtel.utils.MoxtelGitHubService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -12,11 +13,19 @@ class GalleryRepository(
     private val remoteDataSource: MoxtelGitHubService,
     private val externalScope: CoroutineScope
 ) {
-    @Inject constructor(remoteDataSource: MoxtelGitHubService):
-            this (remoteDataSource, CoroutineScope(SupervisorJob() + Dispatchers.IO))
-    suspend fun getMovies() : GalleryResponse {
+    @Inject
+    constructor(remoteDataSource: MoxtelGitHubService) :
+            this(remoteDataSource, CoroutineScope(SupervisorJob() + Dispatchers.IO))
+
+    suspend fun getMovies(): GalleryResponse {
         return externalScope.async {
             remoteDataSource.getMovies() //TODO : Add to cache.
+        }.await()
+    }
+
+    suspend fun getMovie(id: Int): GitHubMovie? {
+        return externalScope.async {
+            remoteDataSource.getMovies().movies?.firstOrNull { it.id == id } //TODO : From cache.
         }.await()
     }
 }

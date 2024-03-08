@@ -3,6 +3,7 @@ package com.bltech.moxtel.gallery.ui
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,13 +30,17 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
 import com.bltech.moxtel.R
+import com.bltech.moxtel.gallery.ui.model.GalleryMovieModel
+import com.bltech.moxtel.gallery.ui.model.GalleryUIState
+import com.bltech.moxtel.global.navigation.MoxRoutes
 
 @Composable
-fun GalleryScreen(viewModel: GalleryViewModel = hiltViewModel()) {
+fun GalleryScreen(viewModel: GalleryViewModel = hiltViewModel(), navController: NavController) {
     LaunchedEffect(key1 = Unit) {
         viewModel.fetchMovies()
     }
@@ -49,28 +54,30 @@ fun GalleryScreen(viewModel: GalleryViewModel = hiltViewModel()) {
         }
 
         is GalleryUIState.Success -> {
-            GalleryView(uiState.movies)
+            GalleryView(uiState.movies, navController)
         }
     }
 }
 
 @Composable
-fun GalleryView(movies: List<GalleryMovieModel>) {
+fun GalleryView(movies: List<GalleryMovieModel>, navController: NavController) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2)
     ) {
         items(movies.count(), key = {
             movies[it].id
         }) { index ->
-            GalleryItemView(movies[index])
+            GalleryItemView(movies[index], modifier = Modifier.clickable {
+                navController.navigate("${MoxRoutes.DETAILS}/${movies[index].id}")
+            })
         }
     }
 }
 
 @Composable
-fun GalleryItemView(movie: GalleryMovieModel) {
+fun GalleryItemView(movie: GalleryMovieModel, modifier: Modifier = Modifier) {
     Box(
-        Modifier
+        modifier
             .aspectRatio(ratio = 1f)
             .padding(dimensionResource(id = R.dimen.galley_view_text_box_padding))
             .clip(RoundedCornerShape(dimensionResource(id = R.dimen.galley_view_cell_rounded_corner)))
