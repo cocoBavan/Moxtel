@@ -1,4 +1,4 @@
-package com.bltech.moxtel.gallery.ui
+package com.bltech.moxtel.gallery.ui.model
 
 data class GalleryMovieModel(
     val id: Int,
