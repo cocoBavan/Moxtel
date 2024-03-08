@@ -2,7 +2,6 @@ package com.bltech.moxtel.global.di
 
 import com.bltech.moxtel.utils.MoxtelDummyService
 import com.bltech.moxtel.utils.MoxtelGitHubService
-import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -20,7 +19,6 @@ class MoxtelModule {
     @Provides
     fun providesGson(): Gson {
         return GsonBuilder()
-            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
             .create()
     }
 
@@ -33,7 +31,7 @@ class MoxtelModule {
             .build()
     }
 
-    private fun getGitHubRetrofit(baseUrl: String, client: OkHttpClient, gson: Gson): Retrofit{
+    private fun getGitHubRetrofit(baseUrl: String, client: OkHttpClient, gson: Gson): Retrofit {
         return Retrofit
             .Builder()
             .baseUrl(baseUrl)
@@ -44,7 +42,7 @@ class MoxtelModule {
 
     @Provides
     fun providesGitHubService(client: OkHttpClient, gson: Gson): MoxtelGitHubService {
-        return getGitHubRetrofit("https://github.com/", client, gson)
+        return getGitHubRetrofit("https://raw.githubusercontent.com/", client, gson)
             .create(MoxtelGitHubService::class.java)
     }
 

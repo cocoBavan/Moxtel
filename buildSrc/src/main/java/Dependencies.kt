@@ -13,6 +13,10 @@ object Dependencies {
     val composeUIToolingPreview: String by lazy { "androidx.compose.ui:ui-tooling-preview" }
     val composeMaterial: String by lazy { "androidx.compose.material3:material3" }
     val composeNavigation: String by lazy { "androidx.navigation:navigation-compose:${Versions.COMPOSE_NAVIGATION}" }
+    val composeLifeCycleRuntime: String by lazy { "androidx.lifecycle:lifecycle-runtime-compose:${Versions.COMPOSE_LIFECYCLE}" }
+
+    val asyncImage: String by lazy { "io.coil-kt:coil:${Versions.COIL}" }
+    val asyncImageComposeExtension: String by lazy { "io.coil-kt:coil-compose:${Versions.COIL}" }
 
     val hilt: String by lazy { "com.google.dagger:hilt-android:${Versions.HILT}" }
     val hiltCompiler: String by lazy { "com.google.dagger:hilt-android-compiler:${Versions.HILT}" }

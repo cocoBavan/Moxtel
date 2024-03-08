@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Moxtel</string>
+    <string name="galley_view_item_content_description">Poster of %1$s</string>
 </resources>

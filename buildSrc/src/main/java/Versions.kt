@@ -6,6 +6,7 @@ object Versions {
     const val COMPOSE_NAVIGATION = "2.7.7"
     const val COMPOSE_BOM = "2024.02.02"
     const val COMPOSE_ACTIVITY = "1.8.2"
+    const val COMPOSE_LIFECYCLE = "2.7.0"
     const val HILT = "2.49"
     const val HILT_NAVIGATION = "1.2.0"
 
@@ -19,4 +20,5 @@ object Versions {
     const val CORE_KTX = "1.12.0"
 
     const val LIFE_CYCLE = "2.7.0"
+    const val COIL = "2.6.0"
 }
