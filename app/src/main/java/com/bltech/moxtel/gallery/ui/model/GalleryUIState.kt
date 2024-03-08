@@ -1,4 +1,4 @@
-package com.bltech.moxtel.gallery.ui
+package com.bltech.moxtel.gallery.ui.model
 
 sealed class GalleryUIState {
     data class Success(var movies: List<GalleryMovieModel>) : GalleryUIState()

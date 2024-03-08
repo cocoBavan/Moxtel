@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bltech.moxtel.gallery.data.GalleryRepository
 import com.bltech.moxtel.gallery.data.model.GitHubMovie
+import com.bltech.moxtel.gallery.ui.model.GalleryMovieModel
+import com.bltech.moxtel.gallery.ui.model.GalleryUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -42,7 +44,7 @@ class GalleryViewModel(
             }
         }
     }
-
+    
     private val mapperDataToUI: (GitHubMovie) -> GalleryMovieModel? = { movie ->
         if (movie.id != null && movie.title != null && movie.posterUrl != null && movie.year != null) {
             GalleryMovieModel(
