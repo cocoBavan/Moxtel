@@ -12,20 +12,25 @@ import javax.inject.Inject
 class GalleryRepository(
     private val remoteDataSource: MoxtelGitHubService,
     private val externalScope: CoroutineScope
-) {
+) : IGalleryRepository {
     @Inject
     constructor(remoteDataSource: MoxtelGitHubService) :
             this(remoteDataSource, CoroutineScope(SupervisorJob() + Dispatchers.IO))
 
-    suspend fun getMovies(): GalleryResponse {
+    override suspend fun getMovies(): GalleryResponse {
         return externalScope.async {
             remoteDataSource.getMovies() //TODO : Add to cache.
         }.await()
     }
 
-    suspend fun getMovie(id: Int): GitHubMovie? {
+    override suspend fun getMovie(id: Int): GitHubMovie? {
         return externalScope.async {
             remoteDataSource.getMovies().movies?.firstOrNull { it.id == id } //TODO : From cache.
         }.await()
     }
+}
+
+interface IGalleryRepository {
+    suspend fun getMovies(): GalleryResponse
+    suspend fun getMovie(id: Int): GitHubMovie?
 }

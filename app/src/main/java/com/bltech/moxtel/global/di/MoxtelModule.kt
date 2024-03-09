@@ -1,5 +1,7 @@
 package com.bltech.moxtel.global.di
 
+import com.bltech.moxtel.gallery.data.GalleryRepository
+import com.bltech.moxtel.gallery.data.IGalleryRepository
 import com.bltech.moxtel.utils.MoxtelDummyService
 import com.bltech.moxtel.utils.MoxtelGitHubService
 import com.google.gson.Gson
@@ -50,6 +52,11 @@ class MoxtelModule {
     fun providesDummyService(client: OkHttpClient, gson: Gson): MoxtelDummyService {
         return getGitHubRetrofit("https://dummyapi.online/", client, gson)
             .create(MoxtelDummyService::class.java)
+    }
+
+    @Provides
+    fun providesGalleryRepository(repository: GalleryRepository): IGalleryRepository {
+        return repository
     }
 
 }
