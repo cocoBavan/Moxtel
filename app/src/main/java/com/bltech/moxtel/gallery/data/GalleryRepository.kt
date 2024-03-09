@@ -28,9 +28,23 @@ class GalleryRepository(
             remoteDataSource.getMovies().movies?.firstOrNull { it.id == id } //TODO : From cache.
         }.await()
     }
+
+    override suspend fun getSimilarMovies(movieId: Int, count: Int): List<GitHubMovie> {
+        return externalScope.async {
+            val genre = getMovie(movieId)?.genres?.shuffled()?.firstOrNull()
+            if (genre == null) {
+                emptyList()
+            } else {
+                remoteDataSource.getMovies().movies?.filter { it.genres?.contains(genre) ?: false }
+                    ?.shuffled()
+                    ?.take(5) ?: emptyList()
+            }
+        }.await()
+    }
 }
 
 interface IGalleryRepository {
     suspend fun getMovies(): GalleryResponse
     suspend fun getMovie(id: Int): GitHubMovie?
+    suspend fun getSimilarMovies(movieId: Int, count: Int = 5): List<GitHubMovie>
 }

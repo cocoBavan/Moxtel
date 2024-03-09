@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bltech.moxtel.gallery.data.IGalleryRepository
 import com.bltech.moxtel.gallery.data.model.GitHubMovie
-import com.bltech.moxtel.gallery.ui.model.GalleryMovieModel
 import com.bltech.moxtel.gallery.ui.model.GalleryUIState
+import com.bltech.moxtel.gallery.ui.model.MovieCellDataModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -32,7 +32,7 @@ class GalleryViewModel(
         _moviesFlow.value = GalleryUIState.Loading
         viewModelScope.launch(dispatcher) {
             try {
-                val movies = repository.getMovies().movies?.mapNotNull(mapperDataToUI)
+                val movies = repository.getMovies().movies?.mapNotNull { it.toUI() }
                 if (!movies.isNullOrEmpty()) {
                     _moviesFlow.value = GalleryUIState.Success(movies)
                 } else {
@@ -44,17 +44,17 @@ class GalleryViewModel(
             }
         }
     }
+}
 
-    private val mapperDataToUI: (GitHubMovie) -> GalleryMovieModel? = { movie ->
-        if (movie.id != null && movie.title != null && movie.posterUrl != null) {
-            GalleryMovieModel(
-                id = movie.id,
-                title = movie.title,
-                posterUrl = movie.posterUrl
-            )
-        } else {
-            null
-        }
+fun GitHubMovie.toUI(): MovieCellDataModel? {
+    return if (id != null && title != null && posterUrl != null) {
+        MovieCellDataModel(
+            id = id,
+            title = title,
+            posterUrl = posterUrl
+        )
+    } else {
+        null
     }
 }
 
