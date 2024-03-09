@@ -1,6 +1,7 @@
 package com.bltech.moxtel.details.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,6 +36,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
@@ -42,11 +45,16 @@ import com.bltech.moxtel.R
 import com.bltech.moxtel.gallery.data.model.GitHubMovie
 import com.bltech.moxtel.gallery.ui.GalleryItemView
 import com.bltech.moxtel.gallery.ui.model.MovieCellDataModel
+import com.bltech.moxtel.global.navigation.MoxRoutes
 import com.bltech.moxtel.global.ui.theme.MoxtelTheme
 
 
 @Composable
-fun DetailsScreen(movieId: Int, viewModel: DetailsScreenViewModel = hiltViewModel()) {
+fun DetailsScreen(
+    movieId: Int,
+    navController: NavHostController,
+    viewModel: DetailsScreenViewModel = hiltViewModel()
+) {
     LaunchedEffect(key1 = Unit) {
         viewModel.fetchMovie(movieId)
     }
@@ -60,13 +68,17 @@ fun DetailsScreen(movieId: Int, viewModel: DetailsScreenViewModel = hiltViewMode
         }
 
         is DetailsUIState.Success -> {
-            DetailsView(uiState.movie, uiState.similarMovies)
+            DetailsView(uiState.movie, uiState.similarMovies, navController)
         }
     }
 }
 
 @Composable
-fun DetailsView(movie: GitHubMovie, similarMovies: List<MovieCellDataModel>) {
+fun DetailsView(
+    movie: GitHubMovie,
+    similarMovies: List<MovieCellDataModel>,
+    navController: NavHostController,
+) {
     val movieTitle = movie.title ?: "Unknown"
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -154,7 +166,11 @@ fun DetailsView(movie: GitHubMovie, similarMovies: List<MovieCellDataModel>) {
             )
             LazyRow {
                 items(similarMovies) {
-                    GalleryItemView(movie = it, modifier = Modifier.width(200.dp))
+                    GalleryItemView(movie = it, modifier = Modifier
+                        .width(200.dp)
+                        .clickable {
+                            navController.navigate("${MoxRoutes.DETAILS}/${it.id}")
+                        })
                 }
             }
         }
@@ -170,7 +186,8 @@ fun DetailsViewPreview() {
                 title = "Blade Runner 2048",
                 posterUrl = "https://image.tmdb.org/t/p/w370_and_h556_bestv2/aMpyrCizvSdc0UIMblJ1srVgAEF.jpg"
             ),
-            emptyList()
+            emptyList(),
+            rememberNavController()
         )
     }
 }

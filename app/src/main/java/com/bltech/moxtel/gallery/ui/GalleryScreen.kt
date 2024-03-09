@@ -188,7 +188,7 @@ fun GreetingPreview() {
 
                 override suspend fun getMovie(id: Int): GitHubMovie? = null
                 override suspend fun getSimilarMovies(
-                    genre: String,
+                    movieId: Int,
                     count: Int
                 ): List<GitHubMovie> = emptyList()
             }),

@@ -20,7 +20,7 @@ fun MoxNavGraph(navController: NavHostController) {
             arguments = listOf(navArgument(MoxNavArgKey.MOVIE_ID) { type = NavType.IntType })
         ) { backStackEntry ->
             backStackEntry.arguments?.getInt(MoxNavArgKey.MOVIE_ID)?.let {
-                DetailsScreen(it)
+                DetailsScreen(it, navController)
             }
         }
     }
