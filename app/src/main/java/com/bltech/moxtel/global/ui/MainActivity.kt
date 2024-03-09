@@ -53,7 +53,7 @@ fun MainScreen() {
     }
     Scaffold(topBar = {
         TopAppBar(
-            colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+            colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background),
             title = { Text(text = "Your Moxtel", color = Color.White) },
             navigationIcon = {
                 if (shouldShowBackIcon.value) {
@@ -69,11 +69,10 @@ fun MainScreen() {
         )
     }) { innerPadding ->
         Surface(
-            color = MaterialTheme.colorScheme.primaryContainer,
+            color = MaterialTheme.colorScheme.background,
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize(),
-            //color = MaterialTheme.colorScheme.background
         ) {
             MoxNavGraph(navController)
         }
