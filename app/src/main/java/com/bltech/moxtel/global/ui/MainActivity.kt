@@ -15,12 +15,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -52,13 +53,15 @@ fun MainScreen() {
     }
     Scaffold(topBar = {
         TopAppBar(
-            title = { Text(text = "Your Moxtel") },
+            colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+            title = { Text(text = "Your Moxtel", color = Color.White) },
             navigationIcon = {
                 if (shouldShowBackIcon.value) {
                     IconButton(onClick = { navController.navigateUp() }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = "Back",
+                            tint = Color.White
                         )
                     }
                 }
@@ -66,20 +69,13 @@ fun MainScreen() {
         )
     }) { innerPadding ->
         Surface(
+            color = MaterialTheme.colorScheme.primaryContainer,
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+            //color = MaterialTheme.colorScheme.background
         ) {
             MoxNavGraph(navController)
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MoxtelTheme {
-        MainScreen()
     }
 }
