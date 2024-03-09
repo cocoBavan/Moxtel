@@ -24,7 +24,7 @@
                 android:fillType="evenOdd"
                 android:pathData="M 6 6 L 74 6"
                 android:strokeWidth="12"
-                android:strokeColor="#e61b1b"
+                android:strokeColor="@color/moxtel_red"
                 android:strokeLineCap="round" />
         </vector>
     </aapt:attr>
