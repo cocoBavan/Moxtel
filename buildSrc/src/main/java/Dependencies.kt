@@ -36,4 +36,8 @@ object Dependencies {
     val uiTestExpresso: String by lazy { "androidx.test.espresso:espresso-core:${Versions.UITEST_EXPRESSO}" }
     val uiTestCompose: String by lazy { "androidx.compose.ui:ui-test-junit4" }
     val uiTestManifest: String by lazy { "androidx.compose.ui:ui-test-manifest" }
+
+    val exoPlayer: String by lazy { "androidx.media3:media3-exoplayer:${Versions.EXO_PLAYER}" }
+    val exoPlayerUI: String by lazy { "androidx.media3:media3-ui:${Versions.EXO_PLAYER}" }
+    val exoPlayerHLS: String by lazy { "androidx.media3:media3-exoplayer-hls:${Versions.EXO_PLAYER}" }
 }

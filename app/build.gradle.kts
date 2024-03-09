@@ -76,6 +76,10 @@ dependencies {
     implementation(Dependencies.asyncImage)
     implementation(Dependencies.asyncImageComposeExtension)
 
+    implementation(Dependencies.exoPlayer)
+    implementation(Dependencies.exoPlayerUI)
+    implementation(Dependencies.exoPlayerHLS)
+    
     debugImplementation(Dependencies.composeUITooling)
     debugImplementation(Dependencies.uiTestManifest)
 

@@ -21,4 +21,6 @@ object Versions {
 
     const val LIFE_CYCLE = "2.7.0"
     const val COIL = "2.6.0"
+
+    const val EXO_PLAYER = "1.3.0"
 }
