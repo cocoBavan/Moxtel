@@ -1,4 +1,4 @@
-package com.bltech.moxtel.gallery.data.model
+package com.bltech.moxtel.features.data.model
 
 data class GalleryResponse(
     val genres: List<String>? = null,

@@ -1,11 +1,10 @@
-package com.bltech.moxtel.details.ui
+package com.bltech.moxtel.features.ui.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bltech.moxtel.gallery.data.GalleryRepository
-import com.bltech.moxtel.gallery.data.model.GitHubMovie
-import com.bltech.moxtel.gallery.ui.model.MovieCellDataModel
-import com.bltech.moxtel.gallery.ui.toUI
+import com.bltech.moxtel.features.data.repository.MoviesRepository
+import com.bltech.moxtel.features.ui.details.model.DetailsUIState
+import com.bltech.moxtel.features.ui.home.toUI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -17,11 +16,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailsScreenViewModel(
-    private val repository: GalleryRepository,
+    private val repository: MoviesRepository,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel() {
     @Inject
-    constructor(repository: GalleryRepository) : this(repository, Dispatchers.IO)
+    constructor(repository: MoviesRepository) : this(repository, Dispatchers.IO)
 
     private var _movieFlow = MutableStateFlow<DetailsUIState>(DetailsUIState.Loading)
     val movieFlow = _movieFlow.asStateFlow()
@@ -52,13 +51,5 @@ class DetailsScreenViewModel(
             }
         }
     }
-}
-
-sealed class DetailsUIState {
-    data class Success(val movie: GitHubMovie, val similarMovies: List<MovieCellDataModel>) :
-        DetailsUIState()
-
-    data object Error : DetailsUIState()
-    data object Loading : DetailsUIState()
 }
 

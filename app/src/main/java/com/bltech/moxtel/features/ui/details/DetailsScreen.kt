@@ -1,4 +1,4 @@
-package com.bltech.moxtel.details.ui
+package com.bltech.moxtel.features.ui.details
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -42,11 +42,12 @@ import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
 import com.bltech.moxtel.R
-import com.bltech.moxtel.gallery.data.model.GitHubMovie
-import com.bltech.moxtel.gallery.ui.GalleryItemView
-import com.bltech.moxtel.gallery.ui.model.MovieCellDataModel
+import com.bltech.moxtel.features.data.model.GitHubMovie
+import com.bltech.moxtel.features.ui.MovieCellView
+import com.bltech.moxtel.features.ui.details.model.DetailsUIState
+import com.bltech.moxtel.features.ui.home.model.MovieCellModel
 import com.bltech.moxtel.global.navigation.MoxRoutes
-import com.bltech.moxtel.global.ui.theme.MoxtelTheme
+import com.bltech.moxtel.global.theme.MoxtelTheme
 
 
 @Composable
@@ -76,7 +77,7 @@ fun DetailsScreen(
 @Composable
 fun DetailsView(
     movie: GitHubMovie,
-    similarMovies: List<MovieCellDataModel>,
+    similarMovies: List<MovieCellModel>,
     navController: NavHostController,
 ) {
     val movieTitle = movie.title ?: "Unknown"
@@ -166,7 +167,7 @@ fun DetailsView(
             )
             LazyRow {
                 items(similarMovies) {
-                    GalleryItemView(movie = it, modifier = Modifier
+                    MovieCellView(movie = it, modifier = Modifier
                         .width(200.dp)
                         .clickable {
                             navController.navigate("${MoxRoutes.DETAILS}/${it.id}")
