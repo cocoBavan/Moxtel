@@ -77,7 +77,7 @@ fun DetailsView(
         HeroImage(movie = movie)
         Text(text = movieTitle)
         AvailableFeatures()
-        WatchNowButton()
+        WatchNowButton(movie.id ?: -1, navController)
         AddToWatchListButton()
         Text(text = movie.plot.unwrapped)
         SimilarMovies(similarMovies, navController)
@@ -122,13 +122,15 @@ fun SimilarMovies(similarMovies: List<MovieCellModel>, navController: NavHostCon
 }
 
 @Composable
-fun WatchNowButton() {
+fun WatchNowButton(movieId: Int, navController: NavHostController) {
     Button(
         modifier = Modifier
             .fillMaxWidth(),
         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
         shape = RoundedCornerShape(0.dp),
-        onClick = { }) {
+        onClick = {
+            navController.navigate("${MoxRoutes.PLAYER}/$movieId")
+        }) {
         Text("Watch Now")
     }
 }
