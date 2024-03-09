@@ -28,7 +28,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -152,7 +151,7 @@ fun DetailsView(
                 modifier = Modifier.size(12.dp),
                 painter = painterResource(id = R.drawable.plus_icon),
                 contentDescription = "",
-                colorFilter = ColorFilter.tint(colorResource(id = R.color.white))
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
             )
             Spacer(modifier = Modifier.width(4.dp))
             Text("Watchlist")
