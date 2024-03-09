@@ -11,7 +11,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -36,6 +40,8 @@ import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
 import com.bltech.moxtel.R
 import com.bltech.moxtel.gallery.data.model.GitHubMovie
+import com.bltech.moxtel.gallery.ui.GalleryItemView
+import com.bltech.moxtel.gallery.ui.model.MovieCellDataModel
 import com.bltech.moxtel.global.ui.theme.MoxtelTheme
 
 
@@ -54,15 +60,18 @@ fun DetailsScreen(movieId: Int, viewModel: DetailsScreenViewModel = hiltViewMode
         }
 
         is DetailsUIState.Success -> {
-            DetailsView(uiState.movie)
+            DetailsView(uiState.movie, uiState.similarMovies)
         }
     }
 }
 
 @Composable
-fun DetailsView(movie: GitHubMovie) {
+fun DetailsView(movie: GitHubMovie, similarMovies: List<MovieCellDataModel>) {
     val movieTitle = movie.title ?: "Unknown"
-    Column {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+        modifier = Modifier.verticalScroll(rememberScrollState())
+    ) {
         SubcomposeAsyncImage(
             modifier = Modifier
                 .aspectRatio(ratio = 16 / 9.0f)
@@ -135,6 +144,20 @@ fun DetailsView(movie: GitHubMovie) {
             Spacer(modifier = Modifier.width(4.dp))
             Text("Watchlist")
         }
+
+        Text(text = movie.plot ?: "")
+
+        if (similarMovies.isNotEmpty()) {
+            Text(
+                text = "Similar Movies",
+                style = MaterialTheme.typography.titleMedium
+            )
+            LazyRow {
+                items(similarMovies) {
+                    GalleryItemView(movie = it, modifier = Modifier.width(200.dp))
+                }
+            }
+        }
     }
 }
 
@@ -144,9 +167,10 @@ fun DetailsViewPreview() {
     MoxtelTheme {
         DetailsView(
             GitHubMovie(
-                title = "Blde Runner 2048",
+                title = "Blade Runner 2048",
                 posterUrl = "https://image.tmdb.org/t/p/w370_and_h556_bestv2/aMpyrCizvSdc0UIMblJ1srVgAEF.jpg"
-            )
+            ),
+            emptyList()
         )
     }
 }

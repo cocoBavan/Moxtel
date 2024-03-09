@@ -15,9 +15,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -44,8 +42,8 @@ import com.bltech.moxtel.R
 import com.bltech.moxtel.gallery.data.IGalleryRepository
 import com.bltech.moxtel.gallery.data.model.GalleryResponse
 import com.bltech.moxtel.gallery.data.model.GitHubMovie
-import com.bltech.moxtel.gallery.ui.model.GalleryMovieModel
 import com.bltech.moxtel.gallery.ui.model.GalleryUIState
+import com.bltech.moxtel.gallery.ui.model.MovieCellDataModel
 import com.bltech.moxtel.global.navigation.MoxRoutes
 import com.bltech.moxtel.global.ui.theme.MoxtelTheme
 
@@ -70,7 +68,7 @@ fun GalleryScreen(viewModel: GalleryViewModel = hiltViewModel(), navController: 
 }
 
 @Composable
-fun GalleryView(movies: List<GalleryMovieModel>, navController: NavController) {
+fun GalleryView(movies: List<MovieCellDataModel>, navController: NavController) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2)
     ) {
@@ -85,7 +83,7 @@ fun GalleryView(movies: List<GalleryMovieModel>, navController: NavController) {
 }
 
 @Composable
-fun GalleryItemView(movie: GalleryMovieModel, modifier: Modifier = Modifier) {
+fun GalleryItemView(movie: MovieCellDataModel, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier
             .padding(dimensionResource(id = R.dimen.galley_view_text_box_padding))
@@ -151,7 +149,8 @@ fun GalleryItemView(movie: GalleryMovieModel, modifier: Modifier = Modifier) {
                     fontSize = dimensionResource(id = R.dimen.galley_view_title_size).value.sp,
                     fontWeight = FontWeight.Bold,
                     maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    color = Color.Black
                 )
             }
 
@@ -188,6 +187,10 @@ fun GreetingPreview() {
                     )
 
                 override suspend fun getMovie(id: Int): GitHubMovie? = null
+                override suspend fun getSimilarMovies(
+                    genre: String,
+                    count: Int
+                ): List<GitHubMovie> = emptyList()
             }),
             navController = navController
         )
