@@ -35,9 +35,13 @@ class GalleryRepository(
             if (genre == null) {
                 emptyList()
             } else {
-                remoteDataSource.getMovies().movies?.filter { it.genres?.contains(genre) ?: false }
+                remoteDataSource.getMovies().movies?.filter {
+                    it.id != movieId && it.genres?.contains(
+                        genre
+                    ) ?: false
+                }
                     ?.shuffled()
-                    ?.take(5) ?: emptyList()
+                    ?.take(count) ?: emptyList()
             }
         }.await()
     }
