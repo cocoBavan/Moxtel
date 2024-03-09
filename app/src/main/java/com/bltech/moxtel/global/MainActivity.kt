@@ -1,4 +1,4 @@
-package com.bltech.moxtel.global.ui
+package com.bltech.moxtel.global
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -27,7 +27,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.bltech.moxtel.global.navigation.MoxNavGraph
 import com.bltech.moxtel.global.navigation.MoxRoutes
-import com.bltech.moxtel.global.ui.theme.MoxtelTheme
+import com.bltech.moxtel.global.theme.MoxtelTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

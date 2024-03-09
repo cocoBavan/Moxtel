@@ -6,14 +6,14 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.bltech.moxtel.details.ui.DetailsScreen
-import com.bltech.moxtel.gallery.ui.GalleryScreen
+import com.bltech.moxtel.features.ui.details.DetailsScreen
+import com.bltech.moxtel.features.ui.home.HomeScreen
 
 @Composable
 fun MoxNavGraph(navController: NavHostController) {
     NavHost(navController = navController, startDestination = MoxRoutes.HOME) {
         composable(MoxRoutes.HOME) {
-            GalleryScreen(navController = navController)
+            HomeScreen(navController = navController)
         }
         composable(
             "${MoxRoutes.DETAILS}/{${MoxNavArgKey.MOVIE_ID}}",

@@ -1,11 +1,11 @@
-package com.bltech.moxtel.gallery.ui
+package com.bltech.moxtel.features.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bltech.moxtel.gallery.data.IGalleryRepository
-import com.bltech.moxtel.gallery.data.model.GitHubMovie
-import com.bltech.moxtel.gallery.ui.model.GalleryUIState
-import com.bltech.moxtel.gallery.ui.model.MovieCellDataModel
+import com.bltech.moxtel.features.domain.contract.IMovieRepository
+import com.bltech.moxtel.features.data.model.GitHubMovie
+import com.bltech.moxtel.features.ui.home.model.GalleryUIState
+import com.bltech.moxtel.features.ui.home.model.MovieCellModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -18,13 +18,13 @@ import javax.inject.Inject
 //@Stable
 @HiltViewModel
 class GalleryViewModel(
-    private val repository: IGalleryRepository,
+    private val repository: IMovieRepository,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) :
     ViewModel() {
 
     @Inject
-    constructor(repository: IGalleryRepository) : this(repository, Dispatchers.IO)
+    constructor(repository: IMovieRepository) : this(repository, Dispatchers.IO)
 
     private var _moviesFlow = MutableStateFlow<GalleryUIState>(GalleryUIState.Loading)
     val movieFlow = _moviesFlow.asStateFlow()
@@ -46,9 +46,9 @@ class GalleryViewModel(
     }
 }
 
-fun GitHubMovie.toUI(): MovieCellDataModel? {
+fun GitHubMovie.toUI(): MovieCellModel? {
     return if (id != null && title != null && posterUrl != null) {
-        MovieCellDataModel(
+        MovieCellModel(
             id = id,
             title = title,
             posterUrl = posterUrl

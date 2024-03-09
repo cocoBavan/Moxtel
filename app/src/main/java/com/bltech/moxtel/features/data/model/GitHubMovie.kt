@@ -1,4 +1,4 @@
-package com.bltech.moxtel.gallery.data.model
+package com.bltech.moxtel.features.data.model
 
 data class GitHubMovie(
     val actors: String? = null,

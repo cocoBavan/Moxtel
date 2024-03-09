@@ -1,18 +1,19 @@
-package com.bltech.moxtel.gallery.data
+package com.bltech.moxtel.features.data.repository
 
-import com.bltech.moxtel.gallery.data.model.GalleryResponse
-import com.bltech.moxtel.gallery.data.model.GitHubMovie
-import com.bltech.moxtel.utils.MoxtelGitHubService
+import com.bltech.moxtel.features.data.datasource.remote.MoxtelGitHubService
+import com.bltech.moxtel.features.data.model.GalleryResponse
+import com.bltech.moxtel.features.data.model.GitHubMovie
+import com.bltech.moxtel.features.domain.contract.IMovieRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
 import javax.inject.Inject
 
-class GalleryRepository(
+class MoviesRepository(
     private val remoteDataSource: MoxtelGitHubService,
     private val externalScope: CoroutineScope
-) : IGalleryRepository {
+) : IMovieRepository {
     @Inject
     constructor(remoteDataSource: MoxtelGitHubService) :
             this(remoteDataSource, CoroutineScope(SupervisorJob() + Dispatchers.IO))
@@ -47,8 +48,3 @@ class GalleryRepository(
     }
 }
 
-interface IGalleryRepository {
-    suspend fun getMovies(): GalleryResponse
-    suspend fun getMovie(id: Int): GitHubMovie?
-    suspend fun getSimilarMovies(movieId: Int, count: Int = 5): List<GitHubMovie>
-}

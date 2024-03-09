@@ -1,24 +1,19 @@
-package com.bltech.moxtel.gallery.ui
+package com.bltech.moxtel.features.ui
 
-import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,61 +24,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
 import com.bltech.moxtel.R
-import com.bltech.moxtel.gallery.data.IGalleryRepository
-import com.bltech.moxtel.gallery.data.model.GalleryResponse
-import com.bltech.moxtel.gallery.data.model.GitHubMovie
-import com.bltech.moxtel.gallery.ui.model.GalleryUIState
-import com.bltech.moxtel.gallery.ui.model.MovieCellDataModel
-import com.bltech.moxtel.global.navigation.MoxRoutes
-import com.bltech.moxtel.global.ui.theme.MoxtelTheme
+import com.bltech.moxtel.features.ui.home.model.MovieCellModel
 
 @Composable
-fun GalleryScreen(viewModel: GalleryViewModel = hiltViewModel(), navController: NavController) {
-    LaunchedEffect(key1 = Unit) {
-        viewModel.fetchMovies()
-    }
-    when (val uiState = viewModel.movieFlow.collectAsStateWithLifecycle().value) {
-        is GalleryUIState.Loading -> {
-            Text(text = "Loading...")
-        }
-
-        is GalleryUIState.Error -> {
-            Text(text = "Error: ${uiState.detail}")
-        }
-
-        is GalleryUIState.Success -> {
-            GalleryView(uiState.movies, navController)
-        }
-    }
-}
-
-@Composable
-fun GalleryView(movies: List<MovieCellDataModel>, navController: NavController) {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2)
-    ) {
-        items(movies.count(), key = {
-            movies[it].id
-        }) { index ->
-            GalleryItemView(movies[index], modifier = Modifier.clickable {
-                navController.navigate("${MoxRoutes.DETAILS}/${movies[index].id}")
-            })
-        }
-    }
-}
-
-@Composable
-fun GalleryItemView(movie: MovieCellDataModel, modifier: Modifier = Modifier) {
+fun MovieCellView(movie: MovieCellModel, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier
             .padding(dimensionResource(id = R.dimen.galley_view_text_box_padding))
@@ -155,44 +104,5 @@ fun GalleryItemView(movie: MovieCellDataModel, modifier: Modifier = Modifier) {
             }
 
         }
-    }
-}
-
-
-@Preview(
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    name = "DefaultPreviewDark"
-)
-@Preview(
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    name = "DefaultPreviewLight"
-)
-@Composable
-fun GreetingPreview() {
-    MoxtelTheme {
-        val navController = rememberNavController()
-        GalleryScreen(
-            viewModel = GalleryViewModel(repository = object : IGalleryRepository {
-                override suspend fun getMovies() =
-                    GalleryResponse(
-                        movies = (0..100).map {
-                            GitHubMovie(
-                                id = it,
-                                posterUrl = "https://picsum.photos/200/300",
-                                title = "Age Of Empires $it"
-                            )
-                        }
-                    )
-
-                override suspend fun getMovie(id: Int): GitHubMovie? = null
-                override suspend fun getSimilarMovies(
-                    movieId: Int,
-                    count: Int
-                ): List<GitHubMovie> = emptyList()
-            }),
-            navController = navController
-        )
     }
 }

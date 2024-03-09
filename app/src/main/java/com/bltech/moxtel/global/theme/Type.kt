@@ -1,4 +1,4 @@
-package com.bltech.moxtel.global.ui.theme
+package com.bltech.moxtel.global.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

@@ -1,9 +1,8 @@
 package com.bltech.moxtel.global.di
 
-import com.bltech.moxtel.gallery.data.GalleryRepository
-import com.bltech.moxtel.gallery.data.IGalleryRepository
-import com.bltech.moxtel.utils.MoxtelDummyService
-import com.bltech.moxtel.utils.MoxtelGitHubService
+import com.bltech.moxtel.features.data.datasource.remote.MoxtelGitHubService
+import com.bltech.moxtel.features.domain.contract.IMovieRepository
+import com.bltech.moxtel.features.data.repository.MoviesRepository
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -49,13 +48,7 @@ class MoxtelModule {
     }
 
     @Provides
-    fun providesDummyService(client: OkHttpClient, gson: Gson): MoxtelDummyService {
-        return getGitHubRetrofit("https://dummyapi.online/", client, gson)
-            .create(MoxtelDummyService::class.java)
-    }
-
-    @Provides
-    fun providesGalleryRepository(repository: GalleryRepository): IGalleryRepository {
+    fun providesGalleryRepository(repository: MoviesRepository): IMovieRepository {
         return repository
     }
 
