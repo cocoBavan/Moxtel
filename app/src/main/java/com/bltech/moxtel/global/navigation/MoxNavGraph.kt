@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.bltech.moxtel.features.ui.details.DetailsScreen
 import com.bltech.moxtel.features.ui.home.HomeScreen
+import com.bltech.moxtel.features.ui.player.VideoView
 
 @Composable
 fun MoxNavGraph(navController: NavHostController) {
@@ -21,6 +22,14 @@ fun MoxNavGraph(navController: NavHostController) {
         ) { backStackEntry ->
             backStackEntry.arguments?.getInt(MoxNavArgKey.MOVIE_ID)?.let {
                 DetailsScreen(it, navController)
+            }
+        }
+        composable(
+            "${MoxRoutes.PLAYER}/{${MoxNavArgKey.MOVIE_ID}}",
+            arguments = listOf(navArgument(MoxNavArgKey.MOVIE_ID) { type = NavType.IntType })
+        ) { backStackEntry ->
+            backStackEntry.arguments?.getInt(MoxNavArgKey.MOVIE_ID)?.let {
+                VideoView(it)
             }
         }
     }
