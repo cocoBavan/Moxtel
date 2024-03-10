@@ -33,13 +33,14 @@ class DetailsScreenViewModel(
                     _movieFlow.value = DetailsUIState.Success(movie, emptyList())
                     try {
                         val similarMovies =
-                            repository.getSimilarMovies(id).mapNotNull { it.toUI() }
+                            repository.getSimilarMovies(id).map { it.toUI() }
                         _movieFlow.update { currentState ->
                             (currentState as? DetailsUIState.Success)?.copy(similarMovies = similarMovies)
                                 ?: currentState
                         }
                     } catch (e: Exception) {
                         //TODO: Pass it to logger
+                        e.printStackTrace()
                     }
                 } else {
                     _movieFlow.value = DetailsUIState.Error

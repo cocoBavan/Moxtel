@@ -40,4 +40,9 @@ object Dependencies {
     val exoPlayer: String by lazy { "androidx.media3:media3-exoplayer:${Versions.EXO_PLAYER}" }
     val exoPlayerUI: String by lazy { "androidx.media3:media3-ui:${Versions.EXO_PLAYER}" }
     val exoPlayerHLS: String by lazy { "androidx.media3:media3-exoplayer-hls:${Versions.EXO_PLAYER}" }
+
+    val roomRuntime: String by lazy { "androidx.room:room-runtime:${Versions.ROOM}" }
+    val roomCompiler: String by lazy { "androidx.room:room-compiler:${Versions.ROOM}" }
+    val roomCoroutine: String by lazy { "androidx.room:room-ktx:${Versions.ROOM}" }
+
 }

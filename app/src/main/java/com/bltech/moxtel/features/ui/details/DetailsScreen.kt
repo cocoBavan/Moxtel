@@ -30,7 +30,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.bltech.moxtel.R
-import com.bltech.moxtel.features.data.model.GitHubMovie
+import com.bltech.moxtel.features.data.model.Movie
 import com.bltech.moxtel.features.ui.MovieCellView
 import com.bltech.moxtel.features.ui.details.model.DetailsUIState
 import com.bltech.moxtel.features.ui.home.model.MovieCellModel
@@ -67,7 +67,7 @@ fun DetailsScreen(
 
 @Composable
 fun DetailsView(
-    movie: GitHubMovie,
+    movie: Movie,
     similarMovies: List<MovieCellModel>,
     navController: NavHostController,
     titleSetter: TitleSetter
@@ -83,7 +83,7 @@ fun DetailsView(
         HeroImage(movie = movie)
         Text(text = movieTitle)
         AvailableFeatures()
-        WatchNowButton(movie.id ?: -1, navController)
+        WatchNowButton(movie.id, navController)
         AddToWatchListButton()
         Text(text = movie.plot.unwrapped)
         SimilarMovies(similarMovies, navController, titleSetter)
@@ -167,9 +167,11 @@ fun AddToWatchListButton() {
 fun DetailsViewPreview() {
     MoxtelTheme {
         DetailsView(
-            GitHubMovie(
+            Movie(
+                id = 0,
                 title = "Blade Runner 2048",
-                posterUrl = "https://image.tmdb.org/t/p/w370_and_h556_bestv2/aMpyrCizvSdc0UIMblJ1srVgAEF.jpg"
+                posterUrl = "https://image.tmdb.org/t/p/w370_and_h556_bestv2/aMpyrCizvSdc0UIMblJ1srVgAEF.jpg",
+                plot = null
             ),
             emptyList(),
             rememberNavController(),
