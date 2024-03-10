@@ -2,12 +2,10 @@ package com.bltech.moxtel.features.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bltech.moxtel.features.data.model.GitHubMovie
-import com.bltech.moxtel.features.data.model.Movie
 import com.bltech.moxtel.features.domain.contract.IMovieRepository
+import com.bltech.moxtel.features.domain.model.Movie
 import com.bltech.moxtel.features.ui.home.model.GalleryUIState
 import com.bltech.moxtel.features.ui.home.model.MovieCellModel
-import com.bltech.moxtel.global.util.unwrapped
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -40,7 +38,7 @@ class GalleryViewModel(
         }.filter {
             it.isNotEmpty()
         }.map { movies ->
-            GalleryUIState.Success(movies.map { it.toUI() })
+            GalleryUIState.Success(movies.mapNotNull { it.toUI() })
         }, moviesRemoteFetchStatusFlow
     )
 
@@ -57,8 +55,8 @@ class GalleryViewModel(
     }
 }
 
-fun GitHubMovie.toUI(): MovieCellModel? {
-    return if (id != null && title != null && posterUrl != null) {
+fun Movie.toUI(): MovieCellModel? {
+    return if (posterUrl != null) {
         MovieCellModel(
             id = id,
             title = title,
@@ -68,13 +66,5 @@ fun GitHubMovie.toUI(): MovieCellModel? {
         null
     }
 }
-
-fun Movie.toUI(): MovieCellModel =
-    MovieCellModel(
-        id = id,
-        title = title,
-        posterUrl = posterUrl.unwrapped
-    )
-
 
 

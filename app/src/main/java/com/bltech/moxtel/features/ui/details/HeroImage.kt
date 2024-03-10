@@ -18,7 +18,7 @@ import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
 import com.bltech.moxtel.R
-import com.bltech.moxtel.features.data.model.Movie
+import com.bltech.moxtel.features.domain.model.Movie
 import com.bltech.moxtel.global.util.unwrapped
 
 @Composable
