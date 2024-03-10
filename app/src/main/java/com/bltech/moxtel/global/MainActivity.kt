@@ -23,6 +23,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.bltech.moxtel.global.navigation.MoxNavGraph
@@ -45,16 +47,17 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun MainScreen() {
+fun MainScreen(viewModel: MainViewModel = hiltViewModel()) {
     val navController = rememberNavController()
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val shouldShowBackIcon = remember {
         derivedStateOf { currentBackStackEntry?.destination?.route != MoxRoutes.HOME }
     }
+    val title = viewModel.titleFlow.collectAsStateWithLifecycle()
     Scaffold(topBar = {
         TopAppBar(
             colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background),
-            title = { Text(text = "Your Moxtel", color = Color.White) },
+            title = { Text(text = title.value, color = Color.White) },
             navigationIcon = {
                 if (shouldShowBackIcon.value) {
                     IconButton(onClick = { navController.navigateUp() }) {
@@ -74,7 +77,7 @@ fun MainScreen() {
                 .padding(innerPadding)
                 .fillMaxSize(),
         ) {
-            MoxNavGraph(navController)
+            MoxNavGraph(navController, titleSetter = viewModel)
         }
     }
 }

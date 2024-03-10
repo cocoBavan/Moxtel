@@ -9,19 +9,20 @@ import androidx.navigation.navArgument
 import com.bltech.moxtel.features.ui.details.DetailsScreen
 import com.bltech.moxtel.features.ui.home.HomeScreen
 import com.bltech.moxtel.features.ui.player.VideoView
+import com.bltech.moxtel.global.TitleSetter
 
 @Composable
-fun MoxNavGraph(navController: NavHostController) {
+fun MoxNavGraph(navController: NavHostController, titleSetter: TitleSetter) {
     NavHost(navController = navController, startDestination = MoxRoutes.HOME) {
         composable(MoxRoutes.HOME) {
-            HomeScreen(navController = navController)
+            HomeScreen(navController = navController, titleSetter = titleSetter)
         }
         composable(
             "${MoxRoutes.DETAILS}/{${MoxNavArgKey.MOVIE_ID}}",
             arguments = listOf(navArgument(MoxNavArgKey.MOVIE_ID) { type = NavType.IntType })
         ) { backStackEntry ->
             backStackEntry.arguments?.getInt(MoxNavArgKey.MOVIE_ID)?.let {
-                DetailsScreen(it, navController)
+                DetailsScreen(it, navController, titleSetter)
             }
         }
         composable(

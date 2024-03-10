@@ -34,6 +34,7 @@ import com.bltech.moxtel.features.data.model.GitHubMovie
 import com.bltech.moxtel.features.ui.MovieCellView
 import com.bltech.moxtel.features.ui.details.model.DetailsUIState
 import com.bltech.moxtel.features.ui.home.model.MovieCellModel
+import com.bltech.moxtel.global.TitleSetter
 import com.bltech.moxtel.global.navigation.MoxRoutes
 import com.bltech.moxtel.global.theme.MoxtelTheme
 import com.bltech.moxtel.global.util.unwrapped
@@ -43,9 +44,10 @@ import com.bltech.moxtel.global.util.unwrapped
 fun DetailsScreen(
     movieId: Int,
     navController: NavHostController,
+    titleSetter: TitleSetter,
     viewModel: DetailsScreenViewModel = hiltViewModel()
 ) {
-    LaunchedEffect(key1 = Unit) {
+    LaunchedEffect(Unit) {
         viewModel.fetchMovie(movieId)
     }
     when (val uiState = viewModel.movieFlow.collectAsStateWithLifecycle().value) {
@@ -58,7 +60,7 @@ fun DetailsScreen(
         }
 
         is DetailsUIState.Success -> {
-            DetailsView(uiState.movie, uiState.similarMovies, navController)
+            DetailsView(uiState.movie, uiState.similarMovies, navController, titleSetter)
         }
     }
 }
@@ -68,19 +70,23 @@ fun DetailsView(
     movie: GitHubMovie,
     similarMovies: List<MovieCellModel>,
     navController: NavHostController,
+    titleSetter: TitleSetter
 ) {
-    val movieTitle = movie.title ?: "Unknown"
+    LaunchedEffect(Unit) {
+        titleSetter.setTitle(movie.title.unwrapped)
+    }
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp),
         modifier = Modifier.verticalScroll(rememberScrollState())
     ) {
+        val movieTitle = movie.title.unwrapped
         HeroImage(movie = movie)
         Text(text = movieTitle)
         AvailableFeatures()
         WatchNowButton(movie.id ?: -1, navController)
         AddToWatchListButton()
         Text(text = movie.plot.unwrapped)
-        SimilarMovies(similarMovies, navController)
+        SimilarMovies(similarMovies, navController, titleSetter)
     }
 }
 
@@ -103,7 +109,9 @@ fun AvailableFeatures() {
 }
 
 @Composable
-fun SimilarMovies(similarMovies: List<MovieCellModel>, navController: NavHostController) {
+fun SimilarMovies(
+    similarMovies: List<MovieCellModel>, navController: NavHostController, titleSetter: TitleSetter
+) {
     if (similarMovies.isNotEmpty()) {
         Text(
             text = "Similar Movies",
@@ -114,6 +122,7 @@ fun SimilarMovies(similarMovies: List<MovieCellModel>, navController: NavHostCon
                 MovieCellView(movie = it, modifier = Modifier
                     .width(200.dp)
                     .clickable {
+                        titleSetter.setTitle(it.title)
                         navController.navigate("${MoxRoutes.DETAILS}/${it.id}")
                     })
             }
@@ -163,7 +172,10 @@ fun DetailsViewPreview() {
                 posterUrl = "https://image.tmdb.org/t/p/w370_and_h556_bestv2/aMpyrCizvSdc0UIMblJ1srVgAEF.jpg"
             ),
             emptyList(),
-            rememberNavController()
+            rememberNavController(),
+            object : TitleSetter {
+                override fun setTitle(title: String) {}
+            }
         )
     }
 }
