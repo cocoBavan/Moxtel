@@ -1,6 +1,6 @@
 package com.bltech.moxtel.features.ui.details.model
 
-import com.bltech.moxtel.features.data.model.Movie
+import com.bltech.moxtel.features.domain.model.Movie
 import com.bltech.moxtel.features.ui.home.model.MovieCellModel
 
 sealed class DetailsUIState {
