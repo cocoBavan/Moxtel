@@ -4,8 +4,8 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity
-data class Movie(
+@Entity(tableName = "movie")
+data class MovieLocal(
     @PrimaryKey val id: Int,
     val title: String,
     val posterUrl: String?,
@@ -14,7 +14,7 @@ data class Movie(
 
 @Entity(
     foreignKeys = [ForeignKey(
-        entity = Movie::class,
+        entity = MovieLocal::class,
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("movieId"),
         onDelete = ForeignKey.CASCADE

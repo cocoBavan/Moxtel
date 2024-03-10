@@ -2,14 +2,16 @@ package com.bltech.moxtel.features.data.repository
 
 import com.bltech.moxtel.features.data.datasource.local.MovieDao
 import com.bltech.moxtel.features.data.datasource.remote.MoxtelGitHubService
-import com.bltech.moxtel.features.data.model.Movie
 import com.bltech.moxtel.features.data.model.MovieGenre
+import com.bltech.moxtel.features.data.model.MovieLocal
 import com.bltech.moxtel.features.domain.contract.IMovieRepository
+import com.bltech.moxtel.features.domain.model.Movie
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class MoviesRepository(
@@ -27,7 +29,7 @@ class MoviesRepository(
 
     override suspend fun getMovie(id: Int): Movie? {
         return externalScope.async {
-            localDataSource.getMovie(id)
+            localDataSource.getMovie(id)?.toDomain()
         }.await()
     }
 
@@ -35,7 +37,7 @@ class MoviesRepository(
         return externalScope.async {
             localDataSource.getSimilarMovies(
                 movieId, count
-            )
+            ).map { it.toDomain() }
         }.await()
     }
 
@@ -51,7 +53,7 @@ class MoviesRepository(
                     movie.genres?.forEach {
                         genres.add(MovieGenre(movieId = movie.id, genre = it))
                     }
-                    Movie(
+                    MovieLocal(
                         id = movie.id,
                         title = movie.title,
                         posterUrl = movie.posterUrl,
@@ -67,6 +69,15 @@ class MoviesRepository(
         }.await()
     }
 
-    override fun getMoviesFlow(): Flow<List<Movie>> = localDataSource.getAllMovies()
+    override fun getMoviesFlow(): Flow<List<Movie>> =
+        localDataSource.getAllMovies().map { it.map { it.toDomain() } }
 }
+
+
+fun MovieLocal.toDomain(): Movie = Movie(
+    id = id,
+    title = title,
+    posterUrl = posterUrl,
+    plot = plot
+)
 
