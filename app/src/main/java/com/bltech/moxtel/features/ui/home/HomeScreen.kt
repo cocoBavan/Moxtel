@@ -19,11 +19,13 @@ import com.bltech.moxtel.features.domain.contract.IMovieRepository
 import com.bltech.moxtel.features.ui.MovieCellView
 import com.bltech.moxtel.features.ui.home.model.GalleryUIState
 import com.bltech.moxtel.features.ui.home.model.MovieCellModel
+import com.bltech.moxtel.global.LocalTitleSetter
 import com.bltech.moxtel.global.navigation.MoxRoutes
 import com.bltech.moxtel.global.theme.MoxtelTheme
 
 @Composable
 fun HomeScreen(viewModel: GalleryViewModel = hiltViewModel(), navController: NavController) {
+    LocalTitleSetter.current("Home")
     LaunchedEffect(key1 = Unit) {
         viewModel.fetchMovies()
     }

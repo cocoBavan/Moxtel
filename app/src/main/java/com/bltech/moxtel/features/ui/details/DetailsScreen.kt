@@ -34,6 +34,7 @@ import com.bltech.moxtel.features.data.model.GitHubMovie
 import com.bltech.moxtel.features.ui.MovieCellView
 import com.bltech.moxtel.features.ui.details.model.DetailsUIState
 import com.bltech.moxtel.features.ui.home.model.MovieCellModel
+import com.bltech.moxtel.global.LocalTitleSetter
 import com.bltech.moxtel.global.navigation.MoxRoutes
 import com.bltech.moxtel.global.theme.MoxtelTheme
 import com.bltech.moxtel.global.util.unwrapped
@@ -69,6 +70,9 @@ fun DetailsView(
     similarMovies: List<MovieCellModel>,
     navController: NavHostController,
 ) {
+
+    LocalTitleSetter.current(movie.title ?: "")
+
     val movieTitle = movie.title ?: "Unknown"
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp),

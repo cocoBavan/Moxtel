@@ -17,8 +17,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,9 +46,23 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
+val LocalTitleSetter = compositionLocalOf { ({ _: String -> }) }
+
 @Composable
-@OptIn(ExperimentalMaterial3Api::class)
 fun MainScreen() {
+    val topBarTitle = remember { mutableStateOf("Your Moxtel") }
+    val titleSetter: (String) -> Unit = {
+        topBarTitle.value = it
+    }
+    CompositionLocalProvider(LocalTitleSetter provides titleSetter) {
+        Scaffold(topBarTitle.value)
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun Scaffold(title: String) {
     val navController = rememberNavController()
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val shouldShowBackIcon = remember {
@@ -54,7 +71,12 @@ fun MainScreen() {
     Scaffold(topBar = {
         TopAppBar(
             colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background),
-            title = { Text(text = "Your Moxtel", color = Color.White) },
+            title = {
+                Text(
+                    text = title,
+                    color = Color.White
+                )
+            },
             navigationIcon = {
                 if (shouldShowBackIcon.value) {
                     IconButton(onClick = { navController.navigateUp() }) {
