@@ -79,9 +79,14 @@ dependencies {
     implementation(Dependencies.exoPlayer)
     implementation(Dependencies.exoPlayerUI)
     implementation(Dependencies.exoPlayerHLS)
-    
+
     debugImplementation(Dependencies.composeUITooling)
     debugImplementation(Dependencies.uiTestManifest)
+
+    implementation(Dependencies.roomRuntime)
+    annotationProcessor(Dependencies.roomCompiler)
+    kapt(Dependencies.roomCompiler)
+    implementation(Dependencies.roomCoroutine)
 
     testImplementation(Dependencies.unitTest)
 
