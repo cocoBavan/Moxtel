@@ -19,12 +19,18 @@ import com.bltech.moxtel.features.domain.contract.IMovieRepository
 import com.bltech.moxtel.features.ui.MovieCellView
 import com.bltech.moxtel.features.ui.home.model.GalleryUIState
 import com.bltech.moxtel.features.ui.home.model.MovieCellModel
+import com.bltech.moxtel.global.TitleSetter
 import com.bltech.moxtel.global.navigation.MoxRoutes
 import com.bltech.moxtel.global.theme.MoxtelTheme
 
 @Composable
-fun HomeScreen(viewModel: GalleryViewModel = hiltViewModel(), navController: NavController) {
-    LaunchedEffect(key1 = Unit) {
+fun HomeScreen(
+    viewModel: GalleryViewModel = hiltViewModel(),
+    navController: NavController,
+    titleSetter: TitleSetter
+) {
+    LaunchedEffect(Unit) {
+        titleSetter.setTitle("Home")
         viewModel.fetchMovies()
     }
     when (val uiState = viewModel.movieFlow.collectAsStateWithLifecycle().value) {
@@ -37,13 +43,17 @@ fun HomeScreen(viewModel: GalleryViewModel = hiltViewModel(), navController: Nav
         }
 
         is GalleryUIState.Success -> {
-            GalleryView(uiState.movies, navController)
+            GalleryView(uiState.movies, navController, titleSetter)
         }
     }
 }
 
 @Composable
-fun GalleryView(movies: List<MovieCellModel>, navController: NavController) {
+fun GalleryView(
+    movies: List<MovieCellModel>,
+    navController: NavController,
+    titleSetter: TitleSetter
+) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2)
     ) {
@@ -51,7 +61,9 @@ fun GalleryView(movies: List<MovieCellModel>, navController: NavController) {
             movies[it].id
         }) { index ->
             MovieCellView(movies[index], modifier = Modifier.clickable {
-                navController.navigate("${MoxRoutes.DETAILS}/${movies[index].id}")
+                val movie = movies[index]
+                titleSetter.setTitle(movie.title)
+                navController.navigate("${MoxRoutes.DETAILS}/${movie.id}")
             })
         }
     }
@@ -90,7 +102,11 @@ fun GreetingPreview() {
                     count: Int
                 ): List<GitHubMovie> = emptyList()
             }),
-            navController = navController
+            navController = navController,
+            titleSetter = object : TitleSetter {
+                override fun setTitle(title: String) {
+                }
+            }
         )
     }
 }
