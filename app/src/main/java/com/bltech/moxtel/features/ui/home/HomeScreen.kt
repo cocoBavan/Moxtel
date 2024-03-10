@@ -15,6 +15,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.bltech.moxtel.features.data.model.GalleryResponse
 import com.bltech.moxtel.features.data.model.GitHubMovie
+import com.bltech.moxtel.features.data.model.Movie
 import com.bltech.moxtel.features.domain.contract.IMovieRepository
 import com.bltech.moxtel.features.ui.MovieCellView
 import com.bltech.moxtel.features.ui.home.model.GalleryUIState
@@ -22,6 +23,8 @@ import com.bltech.moxtel.features.ui.home.model.MovieCellModel
 import com.bltech.moxtel.global.TitleSetter
 import com.bltech.moxtel.global.navigation.MoxRoutes
 import com.bltech.moxtel.global.theme.MoxtelTheme
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun HomeScreen(
@@ -33,7 +36,8 @@ fun HomeScreen(
         titleSetter.setTitle("Home")
         viewModel.fetchMovies()
     }
-    when (val uiState = viewModel.movieFlow.collectAsStateWithLifecycle().value) {
+    when (val uiState =
+        viewModel.moviesFlow.collectAsStateWithLifecycle(GalleryUIState.Loading).value) {
         is GalleryUIState.Loading -> {
             Text(text = "Loading...")
         }
@@ -101,6 +105,9 @@ fun GreetingPreview() {
                     movieId: Int,
                     count: Int
                 ): List<GitHubMovie> = emptyList()
+
+                override suspend fun downloadMovies() {}
+                override fun getMoviesFlow(): Flow<List<Movie>> = flowOf()
             }),
             navController = navController,
             titleSetter = object : TitleSetter {

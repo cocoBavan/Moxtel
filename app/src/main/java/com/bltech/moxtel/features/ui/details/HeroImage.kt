@@ -18,12 +18,12 @@ import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
 import com.bltech.moxtel.R
-import com.bltech.moxtel.features.data.model.GitHubMovie
+import com.bltech.moxtel.features.data.model.Movie
 import com.bltech.moxtel.global.util.unwrapped
 
 @Composable
 fun HeroImage(
-    movie: GitHubMovie, contentDescription: String = stringResource(
+    movie: Movie, contentDescription: String = stringResource(
         id = R.string.galley_view_item_content_description,
         movie.title.unwrapped
     )

@@ -23,4 +23,6 @@ object Versions {
     const val COIL = "2.6.0"
 
     const val EXO_PLAYER = "1.3.0"
+
+    const val ROOM = "2.6.1"
 }
