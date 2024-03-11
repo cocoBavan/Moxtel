@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 //@Stable
 @HiltViewModel
-class GalleryViewModel(
+class HomeViewModel(
     private val repository: IMovieRepository,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) :
@@ -32,15 +32,17 @@ class GalleryViewModel(
     private var moviesRemoteFetchStatusFlow =
         MutableStateFlow<GalleryUIState>(GalleryUIState.Loading)
 
-    val moviesFlow = merge(repository.getMoviesFlow()
-        .catch {
-            emit(emptyList())
-        }.filter {
-            it.isNotEmpty()
-        }.map { movies ->
-            GalleryUIState.Success(movies.mapNotNull { it.toUI() })
-        }, moviesRemoteFetchStatusFlow
-    )
+    val moviesFlow by lazy {
+        merge(moviesRemoteFetchStatusFlow, repository.getMoviesFlow()
+            .catch {
+                emit(emptyList())
+            }.filter {
+                it.isNotEmpty()
+            }.map { movies ->
+                GalleryUIState.Success(movies.mapNotNull { it.toUI() })
+            }
+        )
+    }
 
     fun fetchMovies() {
         moviesRemoteFetchStatusFlow.value = GalleryUIState.Loading

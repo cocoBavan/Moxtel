@@ -13,6 +13,8 @@ object Versions {
     const val JUNIT = "4.13.2"
     const val MOCKK = "1.12.3"
     const val MOCKITO = "2.19.0"
+    const val TEST_COROUTINES = "1.8.0"
+    const val TURBINE = "1.1.0"
 
     const val UITEST = "1.1.5"
     const val UITEST_EXPRESSO = "3.5.1"
