@@ -31,6 +31,8 @@ object Dependencies {
     val unitTest: String by lazy { "junit:junit:${Versions.JUNIT}" }
     val unitTestMockk: String by lazy { "io.mockk:mockk:${Versions.MOCKK}" }
     val unitTestMockito: String by lazy { "org.mockito:mockito-core:${Versions.MOCKITO}" }
+    val unitTestCoroutines: String by lazy { "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.TEST_COROUTINES}" }
+    val turbine: String by lazy { "app.cash.turbine:turbine:${Versions.TURBINE}" }
 
     val uiTest: String by lazy { "androidx.test.ext:junit:${Versions.UITEST}" }
     val uiTestExpresso: String by lazy { "androidx.test.espresso:espresso-core:${Versions.UITEST_EXPRESSO}" }

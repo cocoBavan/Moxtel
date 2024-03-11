@@ -2,7 +2,7 @@ package com.bltech.moxtel.features.ui.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bltech.moxtel.features.data.repository.MoviesRepository
+import com.bltech.moxtel.features.domain.contract.IMovieRepository
 import com.bltech.moxtel.features.ui.details.model.DetailsUIState
 import com.bltech.moxtel.features.ui.home.toUI
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,11 +16,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailsScreenViewModel(
-    private val repository: MoviesRepository,
+    private val repository: IMovieRepository,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel() {
     @Inject
-    constructor(repository: MoviesRepository) : this(repository, Dispatchers.IO)
+    constructor(repository: IMovieRepository) : this(repository, Dispatchers.IO)
 
     private var _movieFlow = MutableStateFlow<DetailsUIState>(DetailsUIState.Loading)
     val movieFlow = _movieFlow.asStateFlow()
@@ -47,7 +47,6 @@ class DetailsScreenViewModel(
                 }
 
             } catch (e: Exception) {
-                print(e.stackTrace)
                 _movieFlow.value = DetailsUIState.Error
             }
         }
