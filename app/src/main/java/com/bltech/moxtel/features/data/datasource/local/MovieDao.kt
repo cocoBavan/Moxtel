@@ -29,13 +29,15 @@ interface MovieDao {
     @Query(
         """
         SELECT m.* FROM movie m
-        JOIN MovieGenre mg ON m.id = mg.movieId
-        WHERE mg.genre IN (
-            SELECT genre FROM MovieGenre 
-        ) AND m.id != :movieId
+        WHERE m.id IN (
+            SELECT movieId FROM MovieGenre 
+            WHERE genre = (
+                SELECT genre FROM MovieGenre WHERE movieId = :movieId
+                ORDER BY RANDOM() LIMIT 1
+            ) AND m.id != :movieId
+        ) 
         ORDER BY RANDOM() LIMIT :count
     """
     )
     suspend fun getSimilarMovies(movieId: Int, count: Int): List<MovieLocal>
-
 }

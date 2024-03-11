@@ -24,11 +24,10 @@ import com.bltech.moxtel.global.theme.MoxtelTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun HomeScreen(
-    viewModel: GalleryViewModel = hiltViewModel(),
+    viewModel: HomeViewModel = hiltViewModel(),
     navController: NavController,
     titleSetter: TitleSetter
 ) {
@@ -88,7 +87,7 @@ fun GreetingPreview() {
     MoxtelTheme {
         val navController = rememberNavController()
         HomeScreen(
-            viewModel = GalleryViewModel(repository = object : IMovieRepository {
+            viewModel = HomeViewModel(repository = object : IMovieRepository {
                 override suspend fun getMovie(id: Int): Movie? = null
                 override suspend fun getSimilarMovies(
                     movieId: Int,
@@ -96,7 +95,7 @@ fun GreetingPreview() {
                 ): List<Movie> = emptyList()
 
                 override suspend fun downloadMovies() {}
-                override fun getMoviesFlow(): Flow<List<Movie>> = flow{
+                override fun getMoviesFlow(): Flow<List<Movie>> = flow {
                     delay(1000)
                     emit((0..100).map {
                         Movie(

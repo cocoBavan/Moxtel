@@ -1,0 +1,75 @@
+package com.bltech.moxtel.features.ui.details
+
+import app.cash.turbine.test
+import com.bltech.moxtel.ViewModelCoroutineDispatcherRule
+import com.bltech.moxtel.features.domain.model.Movie
+import com.bltech.moxtel.features.ui.details.model.DetailsUIState
+import com.bltech.moxtel.features.ui.home.FakeMovieRepository
+import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.runTest
+import org.junit.Rule
+import org.junit.Test
+
+class DetailsScreenViewModelTest {
+
+    private val testDispatcher = StandardTestDispatcher()
+
+    @JvmField
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Rule
+    val changeViewModelScopeRule = ViewModelCoroutineDispatcherRule(testDispatcher)
+    
+    private val dummyMovie = Movie(1435, "A", "", "")
+
+    private val fakeMovieRepository = FakeMovieRepository()
+
+    @Test
+    fun `When you start the View it should show loading`() = runTest {
+        val viewModel = DetailsScreenViewModel(fakeMovieRepository, testDispatcher)
+        viewModel.movieFlow.test {
+            assertEquals(DetailsUIState.Loading, awaitItem())
+        }
+    }
+
+    @Test
+    fun `When you have the movie in the DB it should show Success `() = runTest {
+        val viewModel = DetailsScreenViewModel(fakeMovieRepository, testDispatcher)
+        fakeMovieRepository.setNextResultSetOfMovies(listOf(dummyMovie), emptyList())
+        viewModel.movieFlow.test {
+            assertEquals(DetailsUIState.Loading, awaitItem())
+            viewModel.fetchMovie(1435)
+            val result = awaitItem()
+            assert(result is DetailsUIState.Success)
+            assertEquals(
+                (result as DetailsUIState.Success).movie,
+                dummyMovie
+            )
+        }
+    }
+
+    @Test
+    fun `When you don't have the movie in the DB it should show Error `() = runTest {
+        val viewModel = DetailsScreenViewModel(fakeMovieRepository, testDispatcher)
+        fakeMovieRepository.setNextResultSetOfMovies(listOf(dummyMovie), emptyList())
+        viewModel.movieFlow.test {
+            assertEquals(DetailsUIState.Loading, awaitItem())
+            viewModel.fetchMovie(1437)
+            val result = awaitItem()
+            assert(result is DetailsUIState.Error)
+        }
+    }
+
+    @Test
+    fun `When fetch movie throws exception it should show Error `() = runTest {
+        val viewModel = DetailsScreenViewModel(fakeMovieRepository, testDispatcher)
+        fakeMovieRepository.setNextResultError(IndexOutOfBoundsException())
+        viewModel.movieFlow.test {
+            assertEquals(DetailsUIState.Loading, awaitItem())
+            viewModel.fetchMovie(1437)
+            val result = awaitItem()
+            assert(result is DetailsUIState.Error)
+        }
+    }
+}

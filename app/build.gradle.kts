@@ -101,6 +101,9 @@ dependencies {
     testImplementation(Dependencies.unitTest)
     testImplementation(Dependencies.unitTestMockk)
     testImplementation(Dependencies.unitTestMockito)
+    testImplementation(Dependencies.unitTestCoroutines)
+    testImplementation(Dependencies.turbine)
+
 
 }
 
