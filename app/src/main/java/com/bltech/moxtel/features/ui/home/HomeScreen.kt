@@ -16,8 +16,8 @@ import androidx.navigation.compose.rememberNavController
 import com.bltech.moxtel.features.domain.contract.IMovieRepository
 import com.bltech.moxtel.features.domain.model.Movie
 import com.bltech.moxtel.features.ui.MovieCellView
-import com.bltech.moxtel.features.ui.home.model.GalleryUIState
-import com.bltech.moxtel.features.ui.home.model.MovieCellModel
+import com.bltech.moxtel.features.ui.home.state.GalleryUIState
+import com.bltech.moxtel.features.ui.home.state.MovieCellModel
 import com.bltech.moxtel.global.TitleSetter
 import com.bltech.moxtel.global.navigation.MoxRoutes
 import com.bltech.moxtel.global.theme.MoxtelTheme
@@ -46,7 +46,7 @@ fun HomeScreen(
         }
 
         is GalleryUIState.Success -> {
-            if(uiState.movies.isEmpty()){
+            if (uiState.movies.isEmpty()) {
                 Text(text = "No movies found")
             } else {
                 GalleryView(uiState.movies, navController, titleSetter)

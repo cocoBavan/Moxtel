@@ -29,7 +29,7 @@ import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
 import com.bltech.moxtel.R
-import com.bltech.moxtel.features.ui.home.model.MovieCellModel
+import com.bltech.moxtel.features.ui.home.state.MovieCellModel
 
 @Composable
 fun MovieCellView(movie: MovieCellModel, modifier: Modifier = Modifier) {
