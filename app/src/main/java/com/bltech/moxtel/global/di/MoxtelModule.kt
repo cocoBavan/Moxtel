@@ -2,6 +2,7 @@ package com.bltech.moxtel.global.di
 
 import android.content.Context
 import androidx.room.Room
+import com.bltech.moxtel.BuildConfig
 import com.bltech.moxtel.features.data.datasource.local.MovieDB
 import com.bltech.moxtel.features.data.datasource.local.MovieDao
 import com.bltech.moxtel.features.data.datasource.remote.MoxtelGitHubService
@@ -49,7 +50,7 @@ class MoxtelModule {
 
     @Provides
     fun providesGitHubService(client: OkHttpClient, gson: Gson): MoxtelGitHubService {
-        return getGitHubRetrofit("https://raw.githubusercontent.com/", client, gson)
+        return getGitHubRetrofit(BuildConfig.BASE_URL, client, gson)
             .create(MoxtelGitHubService::class.java)
     }
 
