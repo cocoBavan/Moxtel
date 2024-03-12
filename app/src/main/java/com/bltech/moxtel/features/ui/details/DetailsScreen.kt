@@ -3,6 +3,7 @@ package com.bltech.moxtel.features.ui.details
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -32,8 +33,8 @@ import androidx.navigation.compose.rememberNavController
 import com.bltech.moxtel.R
 import com.bltech.moxtel.features.domain.model.Movie
 import com.bltech.moxtel.features.ui.MovieCellView
-import com.bltech.moxtel.features.ui.details.model.DetailsUIState
-import com.bltech.moxtel.features.ui.home.model.MovieCellModel
+import com.bltech.moxtel.features.ui.details.state.DetailsUIState
+import com.bltech.moxtel.features.ui.home.state.MovieCellModel
 import com.bltech.moxtel.global.TitleSetter
 import com.bltech.moxtel.global.navigation.MoxRoutes
 import com.bltech.moxtel.global.theme.MoxtelTheme
@@ -162,23 +163,25 @@ fun AddToWatchListButton() {
     }
 }
 
-@Preview(widthDp = 1080, heightDp = 1920, showBackground = true, showSystemUi = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun DetailsViewPreview() {
     MoxtelTheme {
-        DetailsView(
-            Movie(
-                id = 0,
-                title = "Blade Runner 2048",
-                posterUrl = "https://image.tmdb.org/t/p/w370_and_h556_bestv2/aMpyrCizvSdc0UIMblJ1srVgAEF.jpg",
-                plot = null
-            ),
-            emptyList(),
-            rememberNavController(),
-            object : TitleSetter {
-                override fun setTitle(title: String) {}
-            }
-        )
+        Box(modifier = Modifier) {
+            DetailsView(
+                Movie(
+                    id = 0,
+                    title = "Blade Runner 2048",
+                    posterUrl = "https://image.tmdb.org/t/p/w370_and_h556_bestv2/aMpyrCizvSdc0UIMblJ1srVgAEF.jpg",
+                    plot = null
+                ),
+                emptyList(),
+                rememberNavController(),
+                object : TitleSetter {
+                    override fun setTitle(title: String) {}
+                }
+            )
+        }
     }
 }
 
