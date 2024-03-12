@@ -40,6 +40,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -47,6 +48,19 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+
+
+    flavorDimensions += "api"
+    productFlavors {
+        create("staging") {
+            dimension = "api"
+            buildConfigField("String", "BASE_URL", "\"https://raw.githubusercontent.com/\"")
+        }
+        create("production") {
+            dimension = "api"
+            buildConfigField("String", "BASE_URL", "\"https://raw.githubusercontent.com/\"")
         }
     }
 }
