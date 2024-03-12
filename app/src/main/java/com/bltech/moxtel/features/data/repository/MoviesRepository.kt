@@ -8,7 +8,6 @@ import com.bltech.moxtel.features.domain.contract.IMovieRepository
 import com.bltech.moxtel.features.domain.model.Movie
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -24,7 +23,7 @@ class MoviesRepository(
             this(
                 remoteDataSource,
                 localDataSource,
-                CoroutineScope(SupervisorJob() + Dispatchers.IO)
+                CoroutineScope(Dispatchers.IO)
             )
 
     override suspend fun getMovie(id: Int): Movie? {
@@ -43,7 +42,7 @@ class MoviesRepository(
 
     override suspend fun downloadMovies() {
         externalScope.async {
-            localDataSource.deleteAllMovies()
+            localDataSource.deleteAllMovies() //TODO: Do upsert, Delete only the diff.
 
             val remoteResult = remoteDataSource.getMovies().movies
 
