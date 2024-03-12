@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import com.bltech.moxtel.ViewModelCoroutineDispatcherRule
 import com.bltech.moxtel.features.domain.contract.IMovieRepository
 import com.bltech.moxtel.features.domain.model.Movie
-import com.bltech.moxtel.features.ui.home.model.GalleryUIState
+import com.bltech.moxtel.features.ui.home.state.GalleryUIState
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk

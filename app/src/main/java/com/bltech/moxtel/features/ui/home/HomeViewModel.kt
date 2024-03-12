@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bltech.moxtel.features.domain.contract.IMovieRepository
 import com.bltech.moxtel.features.domain.model.Movie
-import com.bltech.moxtel.features.ui.home.model.GalleryUIState
-import com.bltech.moxtel.features.ui.home.model.MovieCellModel
+import com.bltech.moxtel.features.ui.home.state.GalleryUIState
+import com.bltech.moxtel.features.ui.home.state.MovieCellModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
