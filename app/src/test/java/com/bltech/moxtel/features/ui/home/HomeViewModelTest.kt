@@ -75,4 +75,17 @@ class HomeViewModelTest {
             assertEquals((result as GalleryUIState.Success).movies.first(), dummyMovie.toUI())
         }
     }
+
+    @Test
+    fun `If there are is Errors flow then it should show Error`() = runTest {
+        val viewModel = HomeViewModel(fakeMovieRepository, testDispatcher)
+        viewModel.moviesFlow.test {
+            assertEquals(GalleryUIState.Loading, awaitItem())
+            fakeMovieRepository.setNextResultError(Exception("Fake Exception"))
+            viewModel.fetchMovies()
+            val result = awaitItem()
+            assert(result is GalleryUIState.Error)
+            assertEquals((result as GalleryUIState.Error).detail, "Fake Exception")
+        }
+    }
 }

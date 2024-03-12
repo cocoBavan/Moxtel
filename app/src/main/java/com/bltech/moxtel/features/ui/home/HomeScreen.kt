@@ -46,7 +46,11 @@ fun HomeScreen(
         }
 
         is GalleryUIState.Success -> {
-            GalleryView(uiState.movies, navController, titleSetter)
+            if(uiState.movies.isEmpty()){
+                Text(text = "No movies found")
+            } else {
+                GalleryView(uiState.movies, navController, titleSetter)
+            }
         }
     }
 }
