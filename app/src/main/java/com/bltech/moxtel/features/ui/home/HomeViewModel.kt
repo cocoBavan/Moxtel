@@ -34,12 +34,12 @@ class HomeViewModel(
 
     val moviesFlow by lazy {
         merge(moviesRemoteFetchStatusFlow, repository.getMoviesFlow()
-            .catch {
-                emit(emptyList())
-            }.filter {
+            .filter {
                 it.isNotEmpty()
             }.map { movies ->
                 GalleryUIState.Success(movies.mapNotNull { it.toUI() })
+            }.catch {
+                GalleryUIState.Error(it.localizedMessage ?: "Unknown Error")
             }
         )
     }
