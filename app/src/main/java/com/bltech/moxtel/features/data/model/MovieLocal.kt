@@ -1,5 +1,6 @@
 package com.bltech.moxtel.features.data.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
@@ -23,6 +24,7 @@ data class MovieLocal(
 data class MovieGenre(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val genre: String,
+    @ColumnInfo(index = true)
     val movieId: Int
 )
 

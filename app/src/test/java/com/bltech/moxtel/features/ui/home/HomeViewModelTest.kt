@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import com.bltech.moxtel.ViewModelCoroutineDispatcherRule
 import com.bltech.moxtel.features.domain.contract.IMovieRepository
 import com.bltech.moxtel.features.domain.model.Movie
-import com.bltech.moxtel.features.ui.home.model.GalleryUIState
+import com.bltech.moxtel.features.ui.home.state.GalleryUIState
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -73,6 +73,19 @@ class HomeViewModelTest {
             val result = awaitItem()
             assert(result is GalleryUIState.Success)
             assertEquals((result as GalleryUIState.Success).movies.first(), dummyMovie.toUI())
+        }
+    }
+
+    @Test
+    fun `If there are is Errors flow then it should show Error`() = runTest {
+        val viewModel = HomeViewModel(fakeMovieRepository, testDispatcher)
+        viewModel.moviesFlow.test {
+            assertEquals(GalleryUIState.Loading, awaitItem())
+            fakeMovieRepository.setNextResultError(Exception("Fake Exception"))
+            viewModel.fetchMovies()
+            val result = awaitItem()
+            assert(result is GalleryUIState.Error)
+            assertEquals((result as GalleryUIState.Error).detail, "Fake Exception")
         }
     }
 }

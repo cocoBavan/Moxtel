@@ -3,7 +3,7 @@ package com.bltech.moxtel.features.ui.details
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bltech.moxtel.features.domain.contract.IMovieRepository
-import com.bltech.moxtel.features.ui.details.model.DetailsUIState
+import com.bltech.moxtel.features.ui.details.state.DetailsUIState
 import com.bltech.moxtel.features.ui.home.toUI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
