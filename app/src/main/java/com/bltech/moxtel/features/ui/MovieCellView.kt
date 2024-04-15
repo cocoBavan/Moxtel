@@ -29,10 +29,10 @@ import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
 import com.bltech.moxtel.R
-import com.bltech.moxtel.features.ui.home.state.MovieCellModel
+import com.bltech.moxtel.features.ui.home.model.MovieCellUIModel
 
 @Composable
-fun MovieCellView(movie: MovieCellModel, modifier: Modifier = Modifier) {
+fun MovieCellView(movie: MovieCellUIModel, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier
             .padding(dimensionResource(id = R.dimen.galley_view_text_box_padding))

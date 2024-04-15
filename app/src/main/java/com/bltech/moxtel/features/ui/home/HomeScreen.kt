@@ -8,17 +8,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.bltech.moxtel.R
 import com.bltech.moxtel.features.domain.contract.IMovieRepository
 import com.bltech.moxtel.features.domain.model.Movie
 import com.bltech.moxtel.features.domain.usecase.FetchMoviesUseCase
 import com.bltech.moxtel.features.ui.MovieCellView
+import com.bltech.moxtel.features.ui.home.model.MovieCellUIModel
 import com.bltech.moxtel.features.ui.home.state.GalleryUIState
-import com.bltech.moxtel.features.ui.home.state.MovieCellModel
 import com.bltech.moxtel.global.TitleSetter
 import com.bltech.moxtel.global.navigation.MoxRoutes
 import com.bltech.moxtel.global.theme.MoxtelTheme
@@ -32,18 +36,19 @@ fun HomeScreen(
     navController: NavController,
     titleSetter: TitleSetter
 ) {
+    val title = LocalContext.current.resources.getString(R.string.home_title)
     LaunchedEffect(Unit) {
-        titleSetter.setTitle("Home")
+        titleSetter.setTitle(title)
         viewModel.fetchMovies()
     }
     when (val uiState =
         viewModel.moviesFlow.collectAsStateWithLifecycle(GalleryUIState.Loading).value) {
         is GalleryUIState.Loading -> {
-            Text(text = "Loading...")
+            Text(text = stringResource(id = R.string.home_loading))
         }
 
         is GalleryUIState.Error -> {
-            Text(text = "Error: ${uiState.detail}")
+            Text(text = "${stringResource(id = R.string.home_error)} ${uiState.detail}")
         }
 
         is GalleryUIState.Success -> {
@@ -58,12 +63,13 @@ fun HomeScreen(
 
 @Composable
 fun GalleryView(
-    movies: List<MovieCellModel>,
+    movies: List<MovieCellUIModel>,
     navController: NavController,
     titleSetter: TitleSetter
 ) {
     LazyVerticalGrid(
-        columns = GridCells.Fixed(2)
+        columns = GridCells.Fixed(2),
+        modifier = Modifier.testTag("gallery")
     ) {
         items(movies.count(), key = {
             movies[it].id

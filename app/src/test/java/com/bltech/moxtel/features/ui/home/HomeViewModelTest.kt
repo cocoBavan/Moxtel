@@ -2,6 +2,7 @@ package com.bltech.moxtel.features.ui.home
 
 import app.cash.turbine.test
 import com.bltech.moxtel.ViewModelCoroutineDispatcherRule
+import com.bltech.moxtel.features.data.repository.FakeMovieRepository
 import com.bltech.moxtel.features.domain.model.Movie
 import com.bltech.moxtel.features.domain.usecase.FetchMoviesUseCase
 import com.bltech.moxtel.features.domain.usecase.IFetchMoviesUseCase

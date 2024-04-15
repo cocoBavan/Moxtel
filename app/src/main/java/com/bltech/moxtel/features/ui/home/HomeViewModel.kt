@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.bltech.moxtel.features.domain.model.Movie
 import com.bltech.moxtel.features.domain.usecase.FetchMoviesUseCase
 import com.bltech.moxtel.features.domain.usecase.IFetchMoviesUseCase
+import com.bltech.moxtel.features.ui.home.model.MovieCellUIModel
 import com.bltech.moxtel.features.ui.home.state.GalleryUIState
-import com.bltech.moxtel.features.ui.home.state.MovieCellModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -58,9 +58,9 @@ class HomeViewModel(
     }
 }
 
-fun Movie.toUI(): MovieCellModel? {
+fun Movie.toUI(): MovieCellUIModel? {
     return if (posterUrl != null) {
-        MovieCellModel(
+        MovieCellUIModel(
             id = id,
             title = title,
             posterUrl = posterUrl
