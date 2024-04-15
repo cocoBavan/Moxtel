@@ -15,5 +15,5 @@ genre as well.
 - UI Tests
 - Hilt for DI
 
-![Moxtel](https://i.ibb.co/Y29F0DV/moxtel.gif)
+![moxtel3](https://github.com/cocoBavan/Moxtel/assets/894806/e43c614e-d3a3-46f8-8224-1c12027300c6)
 
