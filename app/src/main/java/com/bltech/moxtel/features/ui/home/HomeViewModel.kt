@@ -2,8 +2,9 @@ package com.bltech.moxtel.features.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bltech.moxtel.features.domain.contract.IMovieRepository
 import com.bltech.moxtel.features.domain.model.Movie
+import com.bltech.moxtel.features.domain.usecase.FetchMoviesUseCase
+import com.bltech.moxtel.features.domain.usecase.IFetchMoviesUseCase
 import com.bltech.moxtel.features.ui.home.state.GalleryUIState
 import com.bltech.moxtel.features.ui.home.state.MovieCellModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,19 +22,19 @@ import javax.inject.Inject
 //@Stable
 @HiltViewModel
 class HomeViewModel(
-    private val repository: IMovieRepository,
+    private val useCase: IFetchMoviesUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) :
     ViewModel() {
 
     @Inject
-    constructor(repository: IMovieRepository) : this(repository, Dispatchers.IO)
+    constructor(useCase: FetchMoviesUseCase) : this(useCase, Dispatchers.IO)
 
     private var moviesRemoteFetchStatusFlow =
         MutableStateFlow<GalleryUIState>(GalleryUIState.Loading)
 
     val moviesFlow by lazy {
-        merge(moviesRemoteFetchStatusFlow, repository.getMoviesFlow()
+        merge(moviesRemoteFetchStatusFlow, useCase.getMoviesFlow()
             .filter {
                 it.isNotEmpty()
             }.map { movies ->
@@ -48,7 +49,7 @@ class HomeViewModel(
         moviesRemoteFetchStatusFlow.value = GalleryUIState.Loading
         viewModelScope.launch(dispatcher) {
             try {
-                repository.downloadMovies()
+                useCase.downloadMovies()
             } catch (e: Exception) {
                 moviesRemoteFetchStatusFlow.value =
                     GalleryUIState.Error(e.localizedMessage ?: " Unknown Exception")
