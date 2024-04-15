@@ -15,6 +15,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.bltech.moxtel.features.domain.contract.IMovieRepository
 import com.bltech.moxtel.features.domain.model.Movie
+import com.bltech.moxtel.features.domain.usecase.FetchMoviesUseCase
 import com.bltech.moxtel.features.ui.MovieCellView
 import com.bltech.moxtel.features.ui.home.state.GalleryUIState
 import com.bltech.moxtel.features.ui.home.state.MovieCellModel
@@ -91,7 +92,7 @@ fun GreetingPreview() {
     MoxtelTheme {
         val navController = rememberNavController()
         HomeScreen(
-            viewModel = HomeViewModel(repository = object : IMovieRepository {
+            viewModel = HomeViewModel(FetchMoviesUseCase(object : IMovieRepository {
                 override suspend fun getMovie(id: Int): Movie? = null
                 override suspend fun getSimilarMovies(
                     movieId: Int,
@@ -110,7 +111,7 @@ fun GreetingPreview() {
                         )
                     })
                 }
-            }),
+            })),
             navController = navController,
             titleSetter = object : TitleSetter {
                 override fun setTitle(title: String) {
