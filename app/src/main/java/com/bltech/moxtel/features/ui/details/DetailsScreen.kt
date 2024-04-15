@@ -23,7 +23,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -34,7 +37,7 @@ import com.bltech.moxtel.R
 import com.bltech.moxtel.features.domain.model.Movie
 import com.bltech.moxtel.features.ui.MovieCellView
 import com.bltech.moxtel.features.ui.details.state.DetailsUIState
-import com.bltech.moxtel.features.ui.home.state.MovieCellModel
+import com.bltech.moxtel.features.ui.home.model.MovieCellUIModel
 import com.bltech.moxtel.global.TitleSetter
 import com.bltech.moxtel.global.navigation.MoxRoutes
 import com.bltech.moxtel.global.theme.MoxtelTheme
@@ -53,11 +56,17 @@ fun DetailsScreen(
     }
     when (val uiState = viewModel.movieFlow.collectAsStateWithLifecycle().value) {
         is DetailsUIState.Loading -> {
-            Text(text = "Loading...")
+            Text(
+                text = stringResource(id = R.string.details_loading),
+                modifier = Modifier.testTag("loading")
+            )
         }
 
         DetailsUIState.Error -> {
-            Text(text = "Error...")
+            Text(
+                text = stringResource(id = R.string.details_error),
+                modifier = Modifier.testTag("error")
+            )
         }
 
         is DetailsUIState.Success -> {
@@ -69,7 +78,7 @@ fun DetailsScreen(
 @Composable
 fun DetailsView(
     movie: Movie,
-    similarMovies: List<MovieCellModel>,
+    similarMovies: List<MovieCellUIModel>,
     navController: NavHostController,
     titleSetter: TitleSetter
 ) {
@@ -78,7 +87,9 @@ fun DetailsView(
     }
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp),
-        modifier = Modifier.verticalScroll(rememberScrollState())
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
+            .testTag("detail_view")
     ) {
         val movieTitle = movie.title.unwrapped
         HeroImage(movie = movie)
@@ -97,12 +108,12 @@ fun AvailableFeatures() {
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         Image(
-            modifier = Modifier.size(30.dp),
+            modifier = Modifier.size(dimensionResource(id = R.dimen.detail_view_icon_size)),
             painter = painterResource(id = R.drawable.hd_icon),
             contentDescription = ""
         )
         Image(
-            modifier = Modifier.size(30.dp),
+            modifier = Modifier.size(dimensionResource(id = R.dimen.detail_view_icon_size)),
             painter = painterResource(id = R.drawable.cc_icon),
             contentDescription = ""
         )
@@ -111,17 +122,19 @@ fun AvailableFeatures() {
 
 @Composable
 fun SimilarMovies(
-    similarMovies: List<MovieCellModel>, navController: NavHostController, titleSetter: TitleSetter
+    similarMovies: List<MovieCellUIModel>,
+    navController: NavHostController,
+    titleSetter: TitleSetter
 ) {
     if (similarMovies.isNotEmpty()) {
         Text(
-            text = "Similar Movies",
+            text = stringResource(id = R.string.details_similar_movies),
             style = MaterialTheme.typography.titleMedium
         )
         LazyRow {
             items(similarMovies) {
                 MovieCellView(movie = it, modifier = Modifier
-                    .width(200.dp)
+                    .width(dimensionResource(id = R.dimen.detail_view_similar_movies_cell_width))
                     .clickable {
                         titleSetter.setTitle(it.title)
                         navController.navigate("${MoxRoutes.DETAILS}/${it.id}")
@@ -141,7 +154,7 @@ fun WatchNowButton(movieId: Int, navController: NavHostController) {
         onClick = {
             navController.navigate("${MoxRoutes.PLAYER}/$movieId")
         }) {
-        Text("Watch Now")
+        Text(stringResource(id = R.string.details_watch_now))
     }
 }
 
@@ -153,13 +166,13 @@ fun AddToWatchListButton() {
         shape = RoundedCornerShape(0.dp),
         onClick = {}) {
         Image(
-            modifier = Modifier.size(12.dp),
+            modifier = Modifier.size(dimensionResource(id = R.dimen.detail_view_small_icon_size)),
             painter = painterResource(id = R.drawable.plus_icon),
             contentDescription = "",
             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
         )
-        Spacer(modifier = Modifier.width(4.dp))
-        Text("Watchlist")
+        Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.vertical_space_small)))
+        Text(stringResource(id = R.string.details_watchlist))
     }
 }
 

@@ -1,14 +1,16 @@
-package com.bltech.moxtel.features.ui.home
+package com.bltech.moxtel.features.data.repository
 
 import com.bltech.moxtel.features.domain.contract.IMovieRepository
 import com.bltech.moxtel.features.domain.model.Movie
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 
 class FakeMovieRepository : IMovieRepository {
 
     private var nextResult: NextResult? = null
-
+    private var delayInMill: Long = 0
+    
     fun setNextResultSetOfMovies(movies: List<Movie>, genres: List<Pair<Int, String>>) {
         nextResult = NextResult.Success(movies, genres)
     }
@@ -17,12 +19,18 @@ class FakeMovieRepository : IMovieRepository {
         nextResult = NextResult.Error(exception)
     }
 
+    fun setDelay(delay: Long) {
+        delayInMill = delay
+    }
+
     fun clear() {
         nextResult = null
+        delayInMill = 0
     }
 
     private val flow = MutableSharedFlow<List<Movie>>()
     override suspend fun getMovie(id: Int): Movie? {
+        delay(delayInMill)
         return when (val currentResult = nextResult) {
             is NextResult.Error -> throw currentResult.exception
             is NextResult.Success -> currentResult.movies.firstOrNull { it.id == id }
@@ -31,6 +39,7 @@ class FakeMovieRepository : IMovieRepository {
     }
 
     override suspend fun getSimilarMovies(movieId: Int, count: Int): List<Movie> {
+        delay(delayInMill)
         return when (val currentResult = nextResult) {
             is NextResult.Error -> emptyList()
             is NextResult.Success -> {
@@ -53,6 +62,7 @@ class FakeMovieRepository : IMovieRepository {
     }
 
     override suspend fun downloadMovies() {
+        delay(delayInMill)
         when (val currentResult = nextResult) {
             is NextResult.Error -> throw currentResult.exception
             is NextResult.Success -> flow.emit(currentResult.movies)

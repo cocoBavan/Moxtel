@@ -1,4 +1,15 @@
 <resources>
     <string name="app_name">Moxtel</string>
     <string name="galley_view_item_content_description">Poster of %1$s</string>
+
+    <string name="home_title">Home</string>
+    <string name="home_loading">Loading…</string>
+    <string name="home_error">Error:</string>
+
+    <string name="details_similar_movies">Similar Movies</string>
+    <string name="details_watch_now">Watch Now</string>
+    <string name="details_watchlist">Watchlist</string>
+    <string name="details_loading">Loading…</string>
+    <string name="details_error">Error…</string>
+
 </resources>

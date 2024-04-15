@@ -2,9 +2,9 @@ package com.bltech.moxtel.features.ui.details
 
 import app.cash.turbine.test
 import com.bltech.moxtel.ViewModelCoroutineDispatcherRule
+import com.bltech.moxtel.features.data.repository.FakeMovieRepository
 import com.bltech.moxtel.features.domain.model.Movie
 import com.bltech.moxtel.features.ui.details.state.DetailsUIState
-import com.bltech.moxtel.features.ui.home.FakeMovieRepository
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
