@@ -9,7 +9,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject
 constructor() : ViewModel(), TitleSetter {
-    private val _titleFlow = MutableStateFlow("Your Moxtel")
+    private val _titleFlow = MutableStateFlow("Home")
     val titleFlow = _titleFlow.asStateFlow()
     override fun setTitle(title: String) {
         _titleFlow.value = title
