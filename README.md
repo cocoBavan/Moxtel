@@ -1,19 +1,20 @@
 ### Moxtel
 
-This a mock I created to prepare myself for Interviews.
+This is a mock application I created to prepare myself for interviews.
 
-This applications fetches a list movie details from online and then displays them in a Grid.
-Once you click on a movie from the grid, it opens the details screen. It shows some movies of
-similar
-genre as well.
+The application fetches a list of movie details from an online source and displays them in a grid.
+When you click on a movie in the grid, it opens the details screen, which also shows some movies of
+similar genres.
+
+Key features:
 
 - Clean Architecture & MVVM
 - Coroutines & Flow
 - Jetpack Compose & Navigation
-- Room as Single Source Of true
+- Room as the single source of truth
 - Unit Tests
 - UI Tests
-- Hilt for DI
+- Hilt for Dependency Injection
 
 ![moxtel3](https://github.com/cocoBavan/Moxtel/assets/894806/e43c614e-d3a3-46f8-8224-1c12027300c6)
 
