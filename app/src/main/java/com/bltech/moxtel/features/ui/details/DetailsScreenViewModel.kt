@@ -2,7 +2,9 @@ package com.bltech.moxtel.features.ui.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bltech.moxtel.features.domain.contract.IMovieRepository
+import com.bltech.moxtel.features.domain.usecase.FetchSimilarMoviesUseCase
+import com.bltech.moxtel.features.domain.usecase.IFetchSimilarMoviesUseCase
+import com.bltech.moxtel.features.domain.usecase.IFetchTheMovieUseCase
 import com.bltech.moxtel.features.ui.details.state.DetailsUIState
 import com.bltech.moxtel.features.ui.home.toUI
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,11 +18,19 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailsScreenViewModel(
-    private val repository: IMovieRepository,
+    private val fetchTheMovieUseCase: IFetchTheMovieUseCase,
+    private val fetchSimilarMovieUseCase: IFetchSimilarMoviesUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel() {
     @Inject
-    constructor(repository: IMovieRepository) : this(repository, Dispatchers.IO)
+    constructor(
+        fetchTheMovieUseCase: IFetchTheMovieUseCase,
+        useCase: FetchSimilarMoviesUseCase
+    ) : this(
+        fetchTheMovieUseCase,
+        useCase,
+        Dispatchers.IO
+    )
 
     private var _movieFlow = MutableStateFlow<DetailsUIState>(DetailsUIState.Loading)
     val movieFlow = _movieFlow.asStateFlow()
@@ -28,12 +38,12 @@ class DetailsScreenViewModel(
         _movieFlow.value = DetailsUIState.Loading
         viewModelScope.launch(dispatcher) {
             try {
-                val movie = repository.getMovie(id)
+                val movie = fetchTheMovieUseCase.getMovie(id)
                 if (movie != null) {
                     _movieFlow.value = DetailsUIState.Success(movie, emptyList())
                     try {
                         val similarMovies =
-                            repository.getSimilarMovies(id).mapNotNull { it.toUI() }
+                            fetchSimilarMovieUseCase.getSimilarMovies(id).mapNotNull { it.toUI() }
                         _movieFlow.update { currentState ->
                             (currentState as? DetailsUIState.Success)?.copy(similarMovies = similarMovies)
                                 ?: currentState

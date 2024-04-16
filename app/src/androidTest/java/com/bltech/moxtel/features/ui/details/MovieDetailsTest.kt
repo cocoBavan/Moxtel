@@ -8,6 +8,8 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.navigation.compose.rememberNavController
 import com.bltech.moxtel.features.data.repository.FakeMovieRepository
 import com.bltech.moxtel.features.domain.model.Movie
+import com.bltech.moxtel.features.domain.usecase.FetchSimilarMoviesUseCase
+import com.bltech.moxtel.features.domain.usecase.FetchTheMovieUseCase
 import com.bltech.moxtel.global.TitleSetter
 import com.bltech.moxtel.global.theme.MoxtelTheme
 import org.junit.Before
@@ -22,7 +24,11 @@ class MovieDetailsTest {
         override fun setTitle(title: String) {}
     }
     private val fakeMovieRepository = FakeMovieRepository()
-    private val viewModel = DetailsScreenViewModel(fakeMovieRepository)
+    private val viewModel =
+        DetailsScreenViewModel(
+            FetchTheMovieUseCase(fakeMovieRepository),
+            FetchSimilarMoviesUseCase(fakeMovieRepository)
+        )
 
     private val dummyMovie = Movie(1435, "A Testable Movie", "", "")
 

@@ -22,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -50,16 +51,23 @@ class MainActivity : ComponentActivity() {
 fun MainScreen(viewModel: MainViewModel = hiltViewModel()) {
     val navController = rememberNavController()
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
-    val shouldShowBackIcon = remember {
+    val shouldShowBackIcon by remember {
         derivedStateOf { currentBackStackEntry?.destination?.route != MoxRoutes.HOME }
     }
-    val title = viewModel.titleFlow.collectAsStateWithLifecycle()
+    val title by viewModel.titleFlow.collectAsStateWithLifecycle()
     Scaffold(topBar = {
         TopAppBar(
             colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background),
-            title = { Text(text = title.value, color = Color.White) },
+            title = {
+                Text(
+                    text = title,
+                    color = Color.White,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            },
             navigationIcon = {
-                if (shouldShowBackIcon.value) {
+                if (shouldShowBackIcon) {
                     IconButton(onClick = { navController.navigateUp() }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,

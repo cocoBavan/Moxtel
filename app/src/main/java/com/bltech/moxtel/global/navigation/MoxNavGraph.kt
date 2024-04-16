@@ -11,6 +11,7 @@ import com.bltech.moxtel.features.ui.home.HomeScreen
 import com.bltech.moxtel.features.ui.player.VideoView
 import com.bltech.moxtel.global.TitleSetter
 
+
 @Composable
 fun MoxNavGraph(navController: NavHostController, titleSetter: TitleSetter) {
     NavHost(navController = navController, startDestination = MoxRoutes.HOME) {
