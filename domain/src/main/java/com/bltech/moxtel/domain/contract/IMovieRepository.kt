@@ -1,6 +1,6 @@
-package com.bltech.moxtel.features.domain.contract
+package com.bltech.moxtel.domain.contract
 
-import com.bltech.moxtel.features.domain.model.Movie
+import com.bltech.moxtel.domain.model.Movie
 import kotlinx.coroutines.flow.Flow
 
 interface IMovieRepository {

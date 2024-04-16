@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Moxtel"
 include(":app")
+include(":domain")

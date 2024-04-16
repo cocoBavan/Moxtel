@@ -3,13 +3,13 @@ package com.bltech.moxtel.global.di
 import android.content.Context
 import androidx.room.Room
 import com.bltech.moxtel.BuildConfig
+import com.bltech.moxtel.domain.contract.IMovieRepository
+import com.bltech.moxtel.domain.usecase.FetchMoviesUseCase
+import com.bltech.moxtel.domain.usecase.IFetchMoviesUseCase
 import com.bltech.moxtel.features.data.datasource.local.MovieDB
 import com.bltech.moxtel.features.data.datasource.local.MovieDao
 import com.bltech.moxtel.features.data.datasource.remote.MoxtelGitHubService
 import com.bltech.moxtel.features.data.repository.MoviesRepository
-import com.bltech.moxtel.features.domain.contract.IMovieRepository
-import com.bltech.moxtel.features.domain.usecase.FetchMoviesUseCase
-import com.bltech.moxtel.features.domain.usecase.IFetchMoviesUseCase
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module

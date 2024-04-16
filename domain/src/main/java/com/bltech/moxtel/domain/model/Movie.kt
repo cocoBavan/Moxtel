@@ -1,4 +1,4 @@
-package com.bltech.moxtel.features.domain.model
+package com.bltech.moxtel.domain.model
 
 data class Movie(
     val id: Int,

@@ -2,10 +2,10 @@ package com.bltech.moxtel.features.ui.details
 
 import app.cash.turbine.test
 import com.bltech.moxtel.ViewModelCoroutineDispatcherRule
+import com.bltech.moxtel.domain.model.Movie
+import com.bltech.moxtel.domain.usecase.FetchSimilarMoviesUseCase
+import com.bltech.moxtel.domain.usecase.FetchTheMovieUseCase
 import com.bltech.moxtel.features.data.repository.FakeMovieRepository
-import com.bltech.moxtel.features.domain.model.Movie
-import com.bltech.moxtel.features.domain.usecase.FetchSimilarMoviesUseCase
-import com.bltech.moxtel.features.domain.usecase.FetchTheMovieUseCase
 import com.bltech.moxtel.features.ui.details.state.DetailsUIState
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -28,7 +28,10 @@ class DetailsScreenViewModelTest {
     private val fakeMovieRepository = FakeMovieRepository()
     private val viewModel = DetailsScreenViewModel(
         FetchTheMovieUseCase(fakeMovieRepository, testDispatcher),
-        FetchSimilarMoviesUseCase(fakeMovieRepository, testDispatcher),
+        FetchSimilarMoviesUseCase(
+            fakeMovieRepository,
+            testDispatcher
+        ),
         testDispatcher
     )
 
