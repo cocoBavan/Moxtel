@@ -84,5 +84,4 @@ class MoxtelModule {
     fun providesFetchMoviesUseCase(useCase: FetchMoviesUseCase): IFetchMoviesUseCase {
         return useCase
     }
-
 }

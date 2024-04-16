@@ -2,20 +2,17 @@ package com.bltech.moxtel.features.domain.usecase
 
 import com.bltech.moxtel.features.domain.contract.IMovieRepository
 import com.bltech.moxtel.features.domain.model.Movie
+import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import javax.inject.Singleton
 
-
-@Singleton
-class FetchMoviesUseCase(
+@ActivityRetainedScoped
+class FetchSimilarMoviesUseCase(
     private val repository: IMovieRepository,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
-) : IFetchMoviesUseCase {
-
+) : IFetchSimilarMoviesUseCase {
     @Inject
     constructor(repository: IMovieRepository) :
             this(
@@ -23,8 +20,9 @@ class FetchMoviesUseCase(
                 Dispatchers.IO
             )
 
+    override suspend fun getSimilarMovies(movieId: Int, count: Int): List<Movie> =
+        withContext(dispatcher) { repository.getSimilarMovies(movieId, count) }
 
-    override suspend fun downloadMovies() = withContext(dispatcher) { repository.downloadMovies() }
-    override fun getMoviesFlow(): Flow<List<Movie>> = repository.getMoviesFlow()
+
 }
 
