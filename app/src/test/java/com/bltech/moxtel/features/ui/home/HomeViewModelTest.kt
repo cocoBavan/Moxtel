@@ -2,10 +2,10 @@ package com.bltech.moxtel.features.ui.home
 
 import app.cash.turbine.test
 import com.bltech.moxtel.ViewModelCoroutineDispatcherRule
+import com.bltech.moxtel.domain.model.Movie
+import com.bltech.moxtel.domain.usecase.FetchMoviesUseCase
+import com.bltech.moxtel.domain.usecase.IFetchMoviesUseCase
 import com.bltech.moxtel.features.data.repository.FakeMovieRepository
-import com.bltech.moxtel.features.domain.model.Movie
-import com.bltech.moxtel.features.domain.usecase.FetchMoviesUseCase
-import com.bltech.moxtel.features.domain.usecase.IFetchMoviesUseCase
 import com.bltech.moxtel.features.ui.home.state.GalleryUIState
 import io.mockk.coEvery
 import io.mockk.every
@@ -69,7 +69,12 @@ class HomeViewModelTest {
     @Test
     fun `If there are no Errors in API request, then it should show success`() = runTest {
         val viewModel =
-            HomeViewModel(FetchMoviesUseCase(fakeMovieRepository, testDispatcher), testDispatcher)
+            HomeViewModel(
+                FetchMoviesUseCase(
+                    fakeMovieRepository,
+                    testDispatcher
+                ), testDispatcher
+            )
         viewModel.moviesFlow.test {
             assertEquals(GalleryUIState.Loading, awaitItem())
             fakeMovieRepository.setNextResultSetOfMovies(listOf(dummyMovie), emptyList())
@@ -83,7 +88,12 @@ class HomeViewModelTest {
     @Test
     fun `If there are is Errors flow then it should show Error`() = runTest {
         val viewModel =
-            HomeViewModel(FetchMoviesUseCase(fakeMovieRepository, testDispatcher), testDispatcher)
+            HomeViewModel(
+                FetchMoviesUseCase(
+                    fakeMovieRepository,
+                    testDispatcher
+                ), testDispatcher
+            )
         viewModel.moviesFlow.test {
             assertEquals(GalleryUIState.Loading, awaitItem())
             fakeMovieRepository.setNextResultError(Exception("Fake Exception"))

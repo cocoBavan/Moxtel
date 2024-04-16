@@ -18,9 +18,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.bltech.moxtel.R
-import com.bltech.moxtel.features.domain.contract.IMovieRepository
-import com.bltech.moxtel.features.domain.model.Movie
-import com.bltech.moxtel.features.domain.usecase.FetchMoviesUseCase
+import com.bltech.moxtel.domain.contract.IMovieRepository
+import com.bltech.moxtel.domain.model.Movie
+import com.bltech.moxtel.domain.usecase.FetchMoviesUseCase
 import com.bltech.moxtel.features.ui.MovieCellView
 import com.bltech.moxtel.features.ui.home.model.MovieCellUIModel
 import com.bltech.moxtel.features.ui.home.state.GalleryUIState
@@ -99,7 +99,8 @@ fun GreetingPreview() {
     MoxtelTheme {
         val navController = rememberNavController()
         HomeScreen(
-            viewModel = HomeViewModel(FetchMoviesUseCase(object : IMovieRepository {
+            viewModel = HomeViewModel(FetchMoviesUseCase(object :
+                IMovieRepository {
                 override suspend fun getMovie(id: Int): Movie? = null
                 override suspend fun getSimilarMovies(
                     movieId: Int,
@@ -107,17 +108,18 @@ fun GreetingPreview() {
                 ): List<Movie> = emptyList()
 
                 override suspend fun downloadMovies() {}
-                override fun getMoviesFlow(): Flow<List<Movie>> = flow {
-                    delay(1000)
-                    emit((0..100).map {
-                        Movie(
-                            id = it,
-                            posterUrl = "https://picsum.photos/200/300",
-                            title = "Age Of Empires $it",
-                            plot = null
-                        )
-                    })
-                }
+                override fun getMoviesFlow(): Flow<List<Movie>> =
+                    flow {
+                        delay(1000)
+                        emit((0..100).map {
+                            Movie(
+                                id = it,
+                                posterUrl = "https://picsum.photos/200/300",
+                                title = "Age Of Empires $it",
+                                plot = null
+                            )
+                        })
+                    }
             })),
             navController = navController,
             titleSetter = object : TitleSetter {

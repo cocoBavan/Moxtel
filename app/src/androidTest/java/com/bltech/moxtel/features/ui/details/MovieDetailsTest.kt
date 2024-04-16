@@ -6,10 +6,10 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.navigation.compose.rememberNavController
+import com.bltech.moxtel.domain.model.Movie
+import com.bltech.moxtel.domain.usecase.FetchSimilarMoviesUseCase
+import com.bltech.moxtel.domain.usecase.FetchTheMovieUseCase
 import com.bltech.moxtel.features.data.repository.FakeMovieRepository
-import com.bltech.moxtel.features.domain.model.Movie
-import com.bltech.moxtel.features.domain.usecase.FetchSimilarMoviesUseCase
-import com.bltech.moxtel.features.domain.usecase.FetchTheMovieUseCase
 import com.bltech.moxtel.global.TitleSetter
 import com.bltech.moxtel.global.theme.MoxtelTheme
 import org.junit.Before

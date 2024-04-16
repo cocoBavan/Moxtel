@@ -34,7 +34,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.bltech.moxtel.R
-import com.bltech.moxtel.features.domain.model.Movie
+import com.bltech.moxtel.domain.model.Movie
 import com.bltech.moxtel.features.ui.MovieCellView
 import com.bltech.moxtel.features.ui.details.state.DetailsUIState
 import com.bltech.moxtel.features.ui.home.model.MovieCellUIModel

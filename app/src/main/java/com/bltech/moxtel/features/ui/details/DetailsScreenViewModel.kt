@@ -2,9 +2,8 @@ package com.bltech.moxtel.features.ui.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bltech.moxtel.features.domain.usecase.FetchSimilarMoviesUseCase
-import com.bltech.moxtel.features.domain.usecase.IFetchSimilarMoviesUseCase
-import com.bltech.moxtel.features.domain.usecase.IFetchTheMovieUseCase
+import com.bltech.moxtel.domain.usecase.IFetchSimilarMoviesUseCase
+import com.bltech.moxtel.domain.usecase.IFetchTheMovieUseCase
 import com.bltech.moxtel.features.ui.details.state.DetailsUIState
 import com.bltech.moxtel.features.ui.home.toUI
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +24,7 @@ class DetailsScreenViewModel(
     @Inject
     constructor(
         fetchTheMovieUseCase: IFetchTheMovieUseCase,
-        useCase: FetchSimilarMoviesUseCase
+        useCase: IFetchSimilarMoviesUseCase
     ) : this(
         fetchTheMovieUseCase,
         useCase,

@@ -1,7 +1,7 @@
-package com.bltech.moxtel.features.domain.usecase
+package com.bltech.moxtel.domain.usecase
 
-import com.bltech.moxtel.features.domain.contract.IMovieRepository
-import com.bltech.moxtel.features.domain.model.Movie
+import com.bltech.moxtel.domain.contract.IMovieRepository
+import com.bltech.moxtel.domain.model.Movie
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

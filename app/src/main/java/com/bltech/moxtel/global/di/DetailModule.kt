@@ -1,9 +1,9 @@
 package com.bltech.moxtel.global.di
 
-import com.bltech.moxtel.features.domain.usecase.FetchSimilarMoviesUseCase
-import com.bltech.moxtel.features.domain.usecase.FetchTheMovieUseCase
-import com.bltech.moxtel.features.domain.usecase.IFetchSimilarMoviesUseCase
-import com.bltech.moxtel.features.domain.usecase.IFetchTheMovieUseCase
+import com.bltech.moxtel.domain.usecase.FetchSimilarMoviesUseCase
+import com.bltech.moxtel.domain.usecase.FetchTheMovieUseCase
+import com.bltech.moxtel.domain.usecase.IFetchSimilarMoviesUseCase
+import com.bltech.moxtel.domain.usecase.IFetchTheMovieUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

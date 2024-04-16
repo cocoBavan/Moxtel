@@ -93,6 +93,7 @@ dependencies {
     implementation(Dependencies.exoPlayer)
     implementation(Dependencies.exoPlayerUI)
     implementation(Dependencies.exoPlayerHLS)
+    implementation(project(":domain"))
 
     debugImplementation(Dependencies.composeUITooling)
     debugImplementation(Dependencies.uiTestManifest)

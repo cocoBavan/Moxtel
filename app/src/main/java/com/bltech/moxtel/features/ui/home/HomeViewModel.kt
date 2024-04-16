@@ -2,11 +2,11 @@ package com.bltech.moxtel.features.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bltech.moxtel.features.domain.model.Movie
-import com.bltech.moxtel.features.domain.usecase.FetchMoviesUseCase
-import com.bltech.moxtel.features.domain.usecase.IFetchMoviesUseCase
+import com.bltech.moxtel.domain.model.Movie
+import com.bltech.moxtel.domain.usecase.IFetchMoviesUseCase
 import com.bltech.moxtel.features.ui.home.model.MovieCellUIModel
 import com.bltech.moxtel.features.ui.home.state.GalleryUIState
+import com.bltech.moxtel.global.util.unwrapped
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +28,10 @@ class HomeViewModel(
     ViewModel() {
 
     @Inject
-    constructor(useCase: FetchMoviesUseCase) : this(useCase, Dispatchers.IO)
+    constructor(useCase: IFetchMoviesUseCase) : this(
+        useCase,
+        Dispatchers.IO
+    )
 
     private var moviesRemoteFetchStatusFlow =
         MutableStateFlow<GalleryUIState>(GalleryUIState.Loading)
@@ -63,7 +66,7 @@ fun Movie.toUI(): MovieCellUIModel? {
         MovieCellUIModel(
             id = id,
             title = title,
-            posterUrl = posterUrl
+            posterUrl = posterUrl.unwrapped
         )
     } else {
         null
