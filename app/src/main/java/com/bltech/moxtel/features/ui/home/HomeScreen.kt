@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
@@ -41,8 +42,8 @@ fun HomeScreen(
         titleSetter.setTitle(title)
         viewModel.fetchMovies()
     }
-    when (val uiState =
-        viewModel.moviesFlow.collectAsStateWithLifecycle(GalleryUIState.Loading).value) {
+    val collectedState by viewModel.moviesFlow.collectAsStateWithLifecycle(GalleryUIState.Loading)
+    when (val uiState = collectedState) {
         is GalleryUIState.Loading -> {
             Text(text = stringResource(id = R.string.home_loading))
         }
